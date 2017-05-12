@@ -1,0 +1,19 @@
+extends ../ng-card
+
+block card
+
+block menu
+	li: a( ng-click="select()" )= gettext('descargar dinero')
+
+block description
+	table.ng-table
+		thead
+			tr
+				th= gettext('ventas')
+				th= gettext('precio')
+				th= gettext('total')
+		tbody
+			tr( ng-repeat="row in table")
+				td {{row.items}}
+				td {{row.price | currency }}
+				td {{row.price * row.items | currency }}

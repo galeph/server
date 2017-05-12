@@ -1,0 +1,93 @@
+default:
+    port: 3000
+    item for page: 5
+    strict: false
+    ssl: false
+    agent support:
+        webkit: ">=1.0"
+        opera: ">=1.0"
+        ie: ">=1.0"
+        chrome: ">=1.0"
+        safari: ">=1.0"
+        firefox: ">=1.0"
+    timeout resp:
+        urlCount: 15
+        urlSec: 0.7
+        holdTime: 3
+        whitelist:
+            127.0.0.1: true
+    socket.io:
+        origins: "*:*"
+        path: /
+        serveClient: false
+        log level: 3
+        client:
+            is: true
+    sessions:
+        word: KEY
+        cookie: COOKIE_NAME
+        domain: DOMAIN.COM
+        min: DOMA.IN
+        time: 360000000
+    compress:
+        css: false
+        js: false
+        html: false
+    server:
+        ip: 127.0.0.1
+        port: 3000
+
+development:
+    cdn: http://cdn.DOMAIN.COM:8080/
+    strict: true
+    item for page: 10
+    lang: es
+    server:
+        ip: 3000
+    socket.io:
+        path: /v2
+        log level: 1
+        log colors: false
+    sessions:
+        word: KEY
+        cookie: COOKIE_NAME
+
+production:
+    port: 80
+    ssl: true
+    strict: true
+    lang: en
+    item for page: 7
+    cdn: http://cdn.DOMAIN.COM/
+    server:
+        port: #{process.env.PORT}
+    compress:
+        css: true
+        js: true
+        html: true
+    socket.io:
+        path: /v1
+        log level: 1
+        log colors: false
+        cookie: _ng
+        transports:
+            - polling
+            - websocket
+            - xhr-polling
+        client: false
+    agent support:
+        webkit: ">433.16"
+        opera: ">9.64"
+        ie: ">8.0"
+        chrome: ">3.1"
+        safari: ">5.1.10"
+        firefox: ">3.4"
+    sessions:
+        word: #{process.env.UUID}
+        cookie: _COOKIE
+    timeout resp:
+        urlCount: 15
+        urlSec: 0.7
+        holdTime: 3
+        whitelist:
+            127.0.0.1: true

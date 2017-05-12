@@ -1,0 +1,10 @@
+h3( view-title )= gettext('diles a tus amigos')
+ul.unstyled
+	li.bottom-space: a.button.white(href="#{GLOBAL.CONFIG.servers.auth.url}google?ref=#{GLOBAL.CONFIG.servers.import.url}contact/google" )
+		img(src=cacheLink("gmail-175x.png"), alt="GMail")
+	li.bottom-space: a.button.white(href="#{GLOBAL.CONFIG.servers.auth.url}yahoo?ref=#{GLOBAL.CONFIG.servers.import.url}contact/yahoo" )
+		img(src=cacheLink("yahoo-175x.png"), alt="Yahoo!")
+	li.bottom-space: a.button.white(href="#{GLOBAL.CONFIG.servers.auth.url}outlook?ref=#{GLOBAL.CONFIG.servers.import.url}contact/outlook" )
+		img(src=cacheLink("outlook-175x.png"), alt="OutLook")
+	//-li.all-25: a(href="#{GLOBAL.CONFIG.servers.auth.url}aol" )
+		img.all-100(src=cacheLink("aol-x175.png"), alt="Aol")

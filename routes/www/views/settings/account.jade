@@ -1,0 +1,68 @@
+form#account.form.xlarge-60.large-80.medium-100.small-100.tiny-100( name="account", ng-submit="save()" )
+	.overflow.half-bottom-space
+		h4.push-left= gettext('cambia tus configuraciones basicas de cuenta e idioma')
+		button.button.green.push-right( type="submit", ng-disabled="account.$invalid" )= gettext('guardar')
+	.control-group.ng-column-group.ng-gutters.validation( ng-class="{ warning : account.nick.$dirty && account.nick.$invalid }" )
+		label( for="nick", ng-model="acc.nick", in-value="'#{me.profile.nick}'").xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('nombre de usuario')
+		.control.xlarge-70.large-50.medium-70.small-100.tiny-100
+			input#nick(
+				type="text",
+				name="nick",
+				ng-model="acc.nick",
+				ng-required="true",
+				ng-trim="true",
+				is-unique="user" )
+			p.tip( ng-show="!account.nick.$invalid" )= GLOBAL.CONFIG.servers.api.url.replace('api', '{{acc.nick}}')
+			.section( ng-messages="account.nick.$error" )
+				p.tip( ng-message="required")= gettext('coloque un nick para identificarte')
+				p.tip( ng-message="minlength")= gettext('coloque un nick un poco mas largo')
+				p.tip( ng-message="maxlength")= gettext('que sea un poco mas corto')
+				p.tip( ng-message="isLoadings")= gettext('buscando')
+				p.tip( ng-message="isUnique")= gettext('hey intenta con otro')
+
+	.control-group.ng-column-group.ng-gutters.validation( ng-class="{ warning : account.name.$dirty && account.name.$invalid }" )
+		label( for="name", ng-model="acc.name", in-value="'#{me.profile.name}'").xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('nombre completo')
+		.control.xlarge-70.large-50.medium-70.small-100.tiny-100
+			input#name(
+				type="text",
+				name="name",
+				ng-model="acc.name",
+				ng-trim="true")
+
+	.control-group
+		if emails.length >= 1
+			.ng-column-group.ng-gutters
+				label.xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('email')
+				.control.xlarge-70.large-50.medium-70.small-100.tiny-100
+					ul.control.unstyled( in-value="'#{me.connect.principal._id.toString()}'", ng-model="acc.principal")
+						each email, index in emails
+							if email.confirm
+									input.radio( type="radio", id="principal-#{email._id}", name="principal", ng-model="acc.principal", ng-value="'#{email._id}'" )
+							li( id=email._id, mail-active=email.mail, confirm=email.confirm, principal="acc.principal" )
+	
+		.ng-column-group.ng-gutters
+			label( for="email").xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('agregar email')
+			.control.xlarge-70.large-50.medium-70.small-100.tiny-100
+				input#email(
+					type="email",
+					name="email",
+					ng-model="acc.email",
+					placeholder= gettext('email'),
+					ng-trim="true",
+					ng-Required="#{emails.length <= 0}",
+					is-unique="mail" )
+				p.tip= gettext('email electronico no sera mostrado publicamente')
+				.section( ng-messages="account.email.$error" )
+					p.tip( ng-message="required")= gettext('coloque un email')
+					p.tip( ng-message="email")= gettext('coloque un email valido')
+					p.tip( ng-message="isLoadings")= gettext('buscando')
+					p.tip( ng-message="isUnique")= gettext('seguro usted no se ha regstrado')
+	
+	.control-group.ng-column-group.ng-gutters
+		label( for="lang").xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('idioma')
+		.control.xlarge-70.large-50.medium-70.small-100.tiny-100
+			- var lang = ( me.profile.lang || session.lang._id );
+			select#lang(ng-model="acc.lang", name="lang", ng-Required=true, in-value="'#{lang.toString()}'" )
+				each lang in gettextList
+					option( value=lang._id, selected=lang.toString() === lang._id.toString()  )=lang.name
+			p!= gettext('si no existe su idoma haga click')

@@ -1,0 +1,21 @@
+include mixins
+
+doctype html
+
+html(
+	lang= session.lang ? session.lang.code : GLOBAL.CONFIG.response.lang,
+	manifest= GLOBAL.CONFIG.response.cdn + 'application.manifest?v=' + version,
+	ng-app=app.name,
+	ng-strict-di=GLOBAL.CONFIG.response.strict )
+	head( id= ( now ||new Date() ).getTime(), data-status="{{status}}" )
+		include head
+	body( class= css )
+		if message
+			view-title.show-all( hidden=true ) message
+		include topbar
+		block out
+		section.ng-grid.vertical-space.body( role="body" ) 
+			block tool
+			include alert
+			block content
+		include scripts

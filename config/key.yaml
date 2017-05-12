@@ -1,0 +1,66 @@
+default:
+    external: 
+        - google
+        - yahoo
+        - facebook
+        ...
+# Your keys
+development:
+    facebook:
+        key:
+        secret:
+    paypal:
+        key:
+        secret:
+    coinbase:
+        key:
+        secret:
+    google:
+        key:
+        secret:
+    yahoo:
+        key:
+        secret:
+    recaptcha:
+        key:
+        secret:
+    soundcloud:
+        key:
+        secret:
+    doorbell:
+        id:
+        api:
+        host:
+    cachewatch:
+
+production:
+    facebook:
+        key:
+        secret:
+    paypal:
+        key:
+        secret:
+    coinbase:
+        key:
+        secret:
+    google:
+        key:
+        secret:
+    yahoo:
+        key:
+        secret:
+    recaptcha:
+        key:
+        secret:
+    soundcloud:
+        key:
+        secret:
+    doorbell:
+        id:
+        api:
+        host:
+    cachewatch:
+    mailing:
+    verification:
+        google-site-verification:
+        bitly-verification:

@@ -1,0 +1,11 @@
+#comment.top-space( ng-controller="Commets" )
+	form.form( ng-id=item._id || "{{card._id}}", ng-submit="send()" )
+		.control-group.validation( class="{{check()}}")
+			label.push-left.quarter-top-space( for='comment' )
+				+avatar( me, 40 ).quarter-right-space
+			.control
+				textarea.msd-elastic.comnent.no-focus.all-100( ng-model="newComment.text", resize="vertical", placeholder="Tu comentario", id='comment-{{card._id}}', name='comment-{{card._id}}', me-focus="focus")
+		.control-group( ng-show="focus" )
+			.control.push-right
+				button.button( type="submit", id="button-{{card._id}}", ng-disabled="number()<0")= gettext('comentar')
+			label.push-right(for="button-{{card._id}}") {{number()}}

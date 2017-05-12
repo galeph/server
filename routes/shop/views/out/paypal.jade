@@ -1,0 +1,19 @@
+h1= gettext('Paypal')
+p!= gettext('descripcion paypal')
+p= gettext('total') + ' {{ total() - ( ( total() * methods[sistem].tax ) + methods[sistem].more ) | currency }} USD'
+
+form.form( ng-submit="checkout()" )
+	.control-group
+		label( for="paypal" )= gettext('cuenta de paypal')
+		.control
+			input#paypal(
+				type="email",
+				placeholder=gettext('myaccountformpaypal@domain.com'),
+				ng-model="datas.info.account" )
+
+	.control-group
+		label( for="pass")= gettext('tu contrasena de %s', 'Galeph')
+		.control
+			input#pass(type="password", placeholder=gettext('tu contrasena'), ng-model="datas.review")
+
+	button(type="submit" )= gettext('retirar dinero')

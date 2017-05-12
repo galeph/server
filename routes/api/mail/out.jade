@@ -1,0 +1,30 @@
+doctype strict
+html( xmlns="http://www.w3.org/1999/xhtml" )
+	head
+		meta( http-equiv="Content-Type" content="text/html; charset=utf-8")
+		meta( name="viewport" content="width=device-width")
+		include style
+	body( class= css )
+		table.body: tr
+			td.center( align="center" valign="top"): center
+				table.row.table.header: tr
+					td.center( align="center" ): center
+						table.container: tr
+							td.wrapper.last
+								table.twelve.columns: tr
+									td.six.sub-columns
+										img.logo( src=cacheLink("logo-48x.png") )
+									td.six.sub-columns.last
+										h1.template-label= gettext(name + ' subject')
+									td.expander
+				table.container: tr: td
+					table.row: tr
+						td.wrapper.last
+							block content
+					table.row.footer: tr
+						td.wrapper.last
+							table.twelve.columns: tr
+								td.center.small: center
+									p!= gettext('condiciones email', to )
+									.put!=gettext('copy right', now.getFullYear(), 'Galeph' )
+								td.expander

@@ -1,0 +1,22 @@
+default:
+    form: STAFF <YOUR_EMAIL@DOMAIN.COM>
+    replyTo: reply_To@DOMAIN.COM
+    inReplyTo: in_reply_To@DOMAIN.COM
+    maxMessages: 150
+    maxConnections: 5
+    debug: false
+    auth:
+        user: no-reply@domain.com
+        pass: mypassword
+
+development:
+    name: NAME_PROV_EMAIL
+    debug: true
+    auth:
+        user: no-reply@galeph.com
+        pass: mypassword
+
+production:
+    api: true
+    domain: DOMAIN.COM
+    apiKey: #{process.env.SMTP_USER}

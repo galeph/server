@@ -1,0 +1,52 @@
+include ../../glph/views/mixins
+section.ng-toster.ng-sticky-stuck.all-100.ng-hide
+section#topbar.ng-sticky-stuck.all-100( role="topbar" )
+	nav.ng-navigation.ng-grid.ie7.ng-column-group.no-padding
+		ul.menu.horizontal.push-left.white.top
+			li.heading.logo.hide-small.hide-tiny
+				a( href= GLOBAL.CONFIG.servers.www.url, target="_self" ): img( src=cacheLink("logo_t-110x.png"), alt= gettext('Galeph'))
+			li.heading.logo.hide-xlarge.hide-large.hide-medium
+				a( href= GLOBAL.CONFIG.servers.www.url, target="_self" ): img( src=cacheLink("logo-32x.png"), alt= gettext('Galeph'))
+		if search
+			.form: form.hide-small.hide-tiny.search(method="GET", action= GLOBAL.CONFIG.servers.search.url, right="Width", for="menu", max=194)
+				.control-group.left-space: .control.prepend-symbol.no-margin
+					span
+						input#ser(
+							type="text",
+							name="q",
+							title= gettext('buscar en %s', 'Galeph'),
+							placeholder= gettext('buscar en %s', 'Galeph'),
+							ng-model="bar",
+							autocomplete="off" )
+						i.icon.icon-search.icon-lg
+						
+		ul.menu.horizontal.white.left-space.push-right.top#menu
+			//- Traducir
+			li#clickopen.hide-xlarge.hide-large.hide-medium: a.icon.icon-search.icon-lg
+			li.hide-small.hide-tiny.heading: a.top(href=GLOBAL.CONFIG.servers.search.url + 'top?time=weeks', target="_self")= gettext('top')
+			li.bottom.rounded.bounce( ng-icon="cart", data-tool=gettext("carrito de compras"), urls= GLOBAL.CONFIG.servers.shop.url + "cart" )
+			if login
+				li.bottom.rounded.bounce.hide-tiny( ng-icon="bays", data-tool=gettext("bays"), urls= GLOBAL.CONFIG.servers.shop.url + "pay" )
+				li.bottom.rounded.bounce.hide-tiny( ng-icon="sell", data-tool=gettext("sell"), urls= GLOBAL.CONFIG.servers.shop.url + "sell" )
+				li.bottom.rounded.bounce( ng-icon="news", data-tool=gettext('notificaciones'), urls= GLOBAL.CONFIG.servers.www.url + "news" )
+				li
+					a.avatar.name(href= GLOBAL.CONFIG.servers.glph.url.replace('glph', me.profile.nick ) )
+						+avatar( me, 24 ).hide-small.hide-tiny.changes
+						span.hide-small.hide-tiny.left-padding.half-left-space= me.profile.nick
+						i.icon.icon-angle-down.icon-lg.half-left-space.tiny-no-margin.small-no-margin
+					ul.submenu.ng-dropdown
+						li: a.overflow(href= GLOBAL.CONFIG.servers.glph.url.replace('glph', me.profile.nick ), target="_self" )
+							+avatar( me, 40 ).quarter-right-space.hide-xlarge.hide-large.hide-medium.inline.push-left
+							.inline.push-left.no-margin= me.profile.name
+								p.no-margin.fw-700= '@' + me.profile.nick
+						li.hide-xlarge.hide-large.hide-medium.hide-small( ng-icon="bays", alts=gettext("bays"), urls= GLOBAL.CONFIG.servers.shop.url + "pay", shows="true" )
+						li.hide-xlarge.hide-large.hide-medium.hide-small( ng-icon="sell", alts=gettext("sell"), urls= GLOBAL.CONFIG.servers.shop.url + "sell", shows="true" )
+						li: a(href= GLOBAL.CONFIG.servers.www.url + "settings", alt= gettext("configuracion") )= gettext("configuracion")
+						li: a(href= GLOBAL.CONFIG.servers.auth.url +"logout", alt= gettext("salir"), target="_self" )= gettext("salir")
+						li.separator-above: a(href= GLOBAL.CONFIG.servers.www.url + "help", alt= gettext("ayuda"), target="_self", go-now )= gettext('ayuda')
+						li: a(href=GLOBAL.CONFIG.servers.www.url + 'rules', target="_self", go-now )= gettext("rules")
+						li: a(href=GLOBAL.CONFIG.servers.www.url + 'wall', target="_self", go-now )!=  gettext('copy right', "Galeph", now.getFullYear() )
+			else
+				if name != 'lang' && name
+					li: a(href=GLOBAL.CONFIG.servers.auth.url + 'login', target="_self")= gettext('ingresar')
+					li: a(href=GLOBAL.CONFIG.servers.auth.url + 'create', target="_self")= gettext('registrame')

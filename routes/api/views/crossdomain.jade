@@ -1,0 +1,19 @@
+doctype xml
+cross-domain-policy(xsi:noNamespaceSchemaLocation="http://www.adobe.com/xml/schemas/PolicyFile.xsd")
+	// Read this: www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html
+	each server, i in GLOBAL.CONFIG.servers
+		if i != 'glph'
+			allow-access-from( domain=server.url.replace(/http(s)?\:|\//, '') )
+
+	//Most restrictive policy:
+	site-control( permitted-cross-domain-policies="master-only" )
+
+		// Least restrictive policy
+
+		site-control( permitted-cross-domain-policies="all" )
+		allow-access-from( domain="*" to-ports="*" secure="false" )
+		allow-http-request-headers-from( domain="*" headers="*" secure="false" )
+	allow-http-request-headers-from(
+		domain=GLOBAL.CONFIG.servers.glph.url.replace('glph', '*').replace(/http(s)?\:|\//, ''),
+		headers="*",
+		secure="true" )

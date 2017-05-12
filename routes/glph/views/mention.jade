@@ -1,0 +1,5 @@
+ul.list-group.user-search
+	li.list-group-item( mentio-menu-item="person", ng-repeat="person in items" )
+		+avatar( '/{{card.creator._id}}.user.avatar', 25, 25, '{{card.creator.profile.nick}}', '{{card.creator.profile._id}}' )
+		span.text-primary( ng-bind-html="person.nick | mentioHighlight:typedTerm:'menu-highlighted' | unsafe" )
+		em.text-muted( ng-bind="person.name | words:5" )

@@ -1,0 +1,9 @@
+extends ../../../api/views/7525
+include ../../../api/views/mixins
+
+block contents
+	.ng-column-group.ng-gutters.top-space( deckgrid=true, source="items", cardTemplate="#{GLOBAL.CONFIG.servers.search.url}#{sessionID}.contact", ng-id=user ? user._id : false )
+	+increment("push", 'following' )
+
+block small
+	h1= gettext('following')

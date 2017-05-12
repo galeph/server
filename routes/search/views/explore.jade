@@ -1,0 +1,19 @@
+extends ../../api/views/7525
+include ../../api/views/mixins
+
+block before
+
+block after
+	+template( 'angular', 'follow' )
+		a( ng-haga click ="follow()", ng-show="isFollow" )= gettext('seguir')
+		a( ng-haga click ="block()", ng-show="!isFollow" )= gettext('bloquear')
+
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.search.url + sessionID}.card" )
+	+increment('push', 'explore')
+
+block small
+	h3= gettext('explorar')

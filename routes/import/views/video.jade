@@ -1,0 +1,10 @@
+h3( view-title )= gettext('importa tus videos')
+ul.unstyled
+	li.bottom-space: a(href="#{GLOBAL.CONFIG.servers.auth.url}flickr" )
+		img(src=cacheLink("flickr-175x.png"), alt="Flickr")
+	li.bottom-space: a(href="#{GLOBAL.CONFIG.servers.auth.url}vimeo" )
+		img(src=cacheLink("vimeo-175x.png"), alt="vimeo")
+	li.bottom-space: a(href="#{GLOBAL.CONFIG.servers.auth.url}youtube" )
+		img(src=cacheLink("youtube-175x.png"), alt="YouTube")
+	//-li.all-25: a(href="#{GLOBAL.CONFIG.servers.auth.url}aol" )
+		img.all-100(src=cacheLink("aol-x175.png"), alt="Aol")

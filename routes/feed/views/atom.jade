@@ -1,0 +1,35 @@
+doctype xml
+feed( xmlns='http://www.w3.org/2005/Atom', xml:lang=session.lang ? session.lang.code : GLOBAL.CONFIG.response.lang )
+	if title
+		title= gettext(title, types )
+		id= url || GLOBAL.CONFIG.servers.shop.url + types
+
+	if user
+		id= user._id
+		title= gettext('title user', user.profile.nick , user.profile.name )
+		subtitle= user.profile.descr
+		author
+			name= gettext('name', user.profile.nick , user.profile.name)
+			uri= GLOBAL.CONFIG.servers.api.url.replace('api', user.profile.nick )
+
+
+	updated= moment().format("YYYY-MM-DDTHH:mm:ssZ")
+	generator=gettext('generator', GLOBAL.CONFIG.servers.www.url + 'feed', 'Atom' )
+
+	link( href=url || GLOBAL.CONFIG.servers.shop.url + types )
+	link( href=GLOBAL.CONFIG.servers.feed.url + is + '?feed=atom', rel='self' )
+	link( href=GLOBAL.CONFIG.servers.feed.url + is + '?feed=rss', rel='rss' )
+
+	each item, i in items
+		entry
+			title!= item.descri || gettext('no title %s', item.creator.profile.nick)
+			id= item._id
+			link( rel='alternate', type='text/html', href=item.permanentLink() )
+			updated= moment(item.dateLa).format("YYYY-MM-DDTHH:mm:ssZ")
+
+			if item.descri
+				summary( type='html') <![CDATA[!{item.convertHtml()}]]>
+				content( type='html') <![CDATA[!{item.convertHtml()}]]>
+			author
+				name= gettext('name', item.creator.profile.nick , item.creator.profile.name)
+				uri= GLOBAL.CONFIG.servers.api.url.replace('api', item.creator.profile.nick )

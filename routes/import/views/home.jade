@@ -1,0 +1,27 @@
+extends ../../api/views/layout
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.glph.url.replace('glph', 'import'))
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.import.analytic)
+
+block Script
+	script( type="text/javascript", src=cacheLink('import.js') )
+
+block content
+	.double-vertical-padding.overflow
+		section.all-30.push-right.medium-100.medium-100.small-100.tiny-100
+			section.all-100.bottom-space
+				h3= gettext('copy 3')
+				a.button.all-100.white(href="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', me.profile.nick)}")
+					span.push-left= gettext('configurar tu perfil')
+					i.icon.icon-arrow-right.push-right
+			include ../../www/views/footer
+		section.all-70.push-left.grid.medium-100.small-100.tiny-100.ng-tabs.left.flex
+			ul.tabs-nav.menu.large-20.xlarge-20.medium-100.small-100.tiny-100(ng-controller="all")
+				li( ng-class="{ active: tab.contact }" ): a( href="#{GLOBAL.CONFIG.servers.import.url}contact" )= gettext('buscador de amigos')
+				li( ng-class="{ active: tab.image }" ): a( href="#{GLOBAL.CONFIG.servers.import.url}image" )= gettext('imagenes')
+				li( ng-class="{ active: tab.video }" ): a( href="#{GLOBAL.CONFIG.servers.import.url}video" )= gettext('videos')
+				li( ng-class="{ active: tab.audio }" ): a( href="#{GLOBAL.CONFIG.servers.import.url}audio" )= gettext('musicas')
+			article.tabs-content.large-85.xlarge-85.medium-100.small-100.tiny-100( ng-view=true )

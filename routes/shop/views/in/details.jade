@@ -1,0 +1,34 @@
+extends ../../../api/views/7525
+include ../../../glph/views/mixins
+include ../../../api/views/mixins
+
+block before
+
+block small
+	article.ng-column-group.ng-gutters
+		section.all-100.medium-50
+			h3( view-title )= gettext('detalle')
+			dt= gettext('factura')
+				dd.uppercase=checkin._id
+					span.badge( class="#{checkin.color}" )= gettext('comprado', checkin.baucher.length)
+				dd.fw-100=_.humanize(moment( checkin.dateLa ).format('MMMM DD, YYYY')) + ' - '
+					a( href="#{GLOBAL.CONFIG.servers.shop.url}pay/#{checkin._id}/print", target="_blank" )= gettext('ver para imprimir')
+
+		section.all-100.medium-50
+			article.ng-column-group.vertical-space
+				section.term
+					.all-50= gettext('subtotal')
+					.all-50.align-right {{ #{checkin.total} | currency }} USD
+				section.term
+					.all-50= gettext('impuestos')
+					.all-50.align-right {{#{checkin.methodExec.tax * 100 } | number }}%
+				section.term
+					.all-50= gettext('total')
+					.all-50.align-right {{ #{checkin.price} | currency }} USD
+			
+block contents
+	.ng-column-group.ng-gutters.top-space( deckgrid=true, source="items", cardTemplate="#{GLOBAL.CONFIG.servers.shop.url}#{sessionID}.in-card" )
+	.ng-hide( ng-event="checkin:one" )
+	+template( 'angular', 'follow' )
+		a( ng-haga click ="follow()", ng-show="isFollow" )= gettext('seguir')
+		a( ng-haga click ="block()", ng-show="!isFollow" )= gettext('bloquear')

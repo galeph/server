@@ -1,0 +1,17 @@
+extends ../../api/views/layout
+
+block data
+	meta( property="og:image", name="twitter:image", content=cacheLink("logo-128x.png") )
+	meta( property="og:url", content=GLOBAL.CONFIG.servers.www.search )
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.search.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.search.analytic)
+
+block Script
+	script( type="text/javascript", src=cacheLink('search.js') )
+
+block content
+	section.ng-column-group.ng-gutters( ng-view )

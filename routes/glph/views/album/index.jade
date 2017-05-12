@@ -1,0 +1,41 @@
+extends ../multiple
+
+block column
+	.ng-column-group.ng-gutters.top-space( deckgrid=true, source="items", cardTemplate="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick)}#{sessionID}.album-card", ng-id=user ? user._id : false )
+
+block  before
+	if agent.is.mobile_safari || agent.is.safari
+		meta( name="twitter:app:url:iphone" content="com.galeph://user/#{user.profile.nick}" )
+		meta( name="twitter:app:url:ipad" content="com.galeph://user/#{user.profile.nick}" )
+	if agent.is.android || agent.is.chrome
+		meta( name="twitter:app:url:googleplay" content="http://galeph.com/user/#{user.profile.nick}" )
+	view-title.ng-hide( ng-event="profile" )= user.profile.nick
+	//-input#edit.ng-hide(type="checkbox", ng-model="edit", ng-init="edit=false")		
+
+block lateral
+	if ( login && user._id.toString() === me._id.toString() ) || ( user.profile.urlwe || user.profile.urlwe )
+		article.white.half-padding(ng-show="!edit")
+			if ( login && user._id.toString() === me._id.toString() ) || user.profile.descr
+				p( in-value="'#{user.profile.descr || ''}'", ng-bind-html="profile.descr | links:250", ng-show="profile.descr.length > 0", ng-model="profile.descr" )
+			if ( login && user._id.toString() === me._id.toString() ) || user.profile.urlwe
+				p.icon.icon-link( ng-show="profile.urlwe", in-value="'#{user.profile.urlwe || '' }'", ng-model="profile.urlwe" )
+					a.quarter-space(ng-href="{{profile.urlwe}}", target="_blank") {{profile.urlwe}}
+
+	if login && user._id.toString() === me._id.toString()
+		section( ng-controller="Setting", ng-show="edit" )
+			form#profiles.form.white.half-padding( ng-submit="saveProfile()" )
+				.control-group: .control
+					textarea(ng-Model="profile.descr", name="descr", ng-Maxlength="250" )
+				.control-group: .control.prepend-symbol
+					span
+						input(type="url", ng-Model="profile.urlwe", name="urlwe")
+						i.icon.icon-link
+				input.ng-hide#save(type="submit", name="save")
+				input.ng-hide#cancel(type="button", name="cancel", ng-click="resetProfile()")
+			
+	if album
+		ul( ng-controller="Gallery" )
+			li.white.half-padding( ng-repeat="item in items" )
+				a( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick ) + '{{item.slug}}' )
+					img(src="images/{{item.portada}}" , alt="{{item.name}}")
+					h4 {{item.name}}

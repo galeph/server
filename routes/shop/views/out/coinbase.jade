@@ -1,0 +1,29 @@
+h1= gettext('bitcoin')
+p!= gettext('descripcion bitcoin')
+p= gettext('total') + ' {{ total() - ( ( total() * methods[sistem].tax ) + methods[sistem].more ) | currency }} USD'
+
+form.form( ng-submit="checkout()" )
+	.control-group
+		label( for="bitcoin" )= gettext('cuenta de bitcoin')
+		.control
+			input#bitcoin(
+				type="text",
+				placeholder="1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp",
+				ng-model="datas.info.account",
+				ng-pattern='/^[13][1-9a-z][^O0Il]{24,32}$/i',
+				required="required",
+				ng-minlength=24
+				ng-maxlength=32
+				ng-trim="true" )
+
+	.control-group
+		label( for="pass")= gettext('tu contrasena de %s', 'Galeph')
+		.control
+			input#pass(
+				type="password",
+				placeholder=gettext('oloque su contrasena'),
+				ng-model="datas.review",
+				ng-Minlength="4"
+				required="required")
+
+	button.button.green.push-right( type="submit" )= gettext('retirar dinero')

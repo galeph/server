@@ -1,0 +1,37 @@
+extends ../../../api/views/7525
+include ../../../glph/views/mixins
+include ../../../api/views/mixins
+
+block before
+
+block small
+	article.ng-column-group.ng-gutters
+		section.all-100.medium-50
+			h3( view-title )= gettext('detalle')
+			dt= gettext('factura')
+				dd.uppercase=checkout._id
+				dd: span.badge( class="#{checkout.color}" )= gettext('status vendido ' + checkout.status )
+				dd.fw-100=_.humanize(moment( checkout.dateLa ).format('MMMM DD, YYYY')) + ' - '
+					a( href="#{GLOBAL.CONFIG.servers.shop.url}sell/#{checkout._id}/print", target="_blank" )= gettext('ver para imprimir')
+
+		section.all-100.medium-50
+			article.ng-column-group.vertical-space
+				section.term
+					.all-50= gettext('subtotal')
+					.all-50.align-right {{ #{checkout.total} | currency }} USD
+				section.term
+					.all-50= gettext('impuestos')
+					.all-50.align-right {{#{checkout.methodExec.tax * 100 } | number }}%
+				section.term
+					.all-50= gettext('total')
+					.all-50.align-right {{ #{checkout.price} | currency }} USD
+			
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.shop.url}#{sessionID}.out-card" )
+	.ng-mostrar( ng-event="checkout:one" )
+	+template( 'angular', 'follow' )
+		a( ng-click="follow()", ng-show="isFollow" )= gettext('seguir')
+		a( ng-click="block()", ng-show="!isFollow" )= gettext('bloquear')

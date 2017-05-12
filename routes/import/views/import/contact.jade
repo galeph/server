@@ -1,0 +1,8 @@
+include ../../../api/views/mixins
+
+.ng-column-group.ng-gutters.top-space( deckgrid=true, source="items", cardTemplate="#{GLOBAL.CONFIG.servers.search.url}#{sessionID}.contact")
+.carga( ng-show="items.length" )
+	+increment("push", 'contact' )
+section(ng-show="!items.length")
+	h4.align-center.uppercase.fw-100= gettext('no se encontraron %s', gettext('amigos'))
+

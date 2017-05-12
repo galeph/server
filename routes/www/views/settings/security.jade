@@ -1,0 +1,14 @@
+form#security.form.xlarge-60.large-80.medium-100.small-100.tiny-100( name="security" )
+	.overflow.half-bottom-space
+		h4.push-lef= gettext('cambia tus configuraciones de seguridad y privacidad')
+	h4= gettext('la autenticacion de segundo paso')
+		button.button.green.push-right.small= gettext('guardar')
+	.control-group.ng-column-group.ng-gutters
+		label( for="nick", ng-model="security.nick", in-value="#{me.profile.nick}").xlarge-30.large-30.medium-30.small-100.tiny-100.tiny-align-left.small-align-left.align-right= gettext('nombre de usuario')
+		.control.xlarge-70.large-50.medium-70.small-100.tiny-100.prepend-button
+			select(ng-model="region", name="region" )
+				option( value="blas" )= gettext('colombia')
+			span: input#nick(
+					type="tel",
+					name="tel",
+					ng-model="tel" )

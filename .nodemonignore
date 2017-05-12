@@ -1,0 +1,14 @@
+/node_modules/*
+routes/*/javascripts/*.js
+routes/*/directive/*.js
+routes/*/filter/*.js
+routes/*/service/*.js
+README.md
+*.scss
+*.jade
+.git/*
+*.git
+*.jpg
+*.png
+*.ico
+*.map

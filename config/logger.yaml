@@ -1,0 +1,11 @@
+default:
+    console:
+        enabled: true
+        log: true
+        err: true
+
+production:
+    console:
+        enabled: true
+        log: true
+        err: true

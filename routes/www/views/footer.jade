@@ -1,0 +1,23 @@
+if !login
+	nav.ng-navigation.all-100.vertical-space.double-top-space
+		a.ng-hide(href="https://plus.google.com/112330520573707428234",
+			rel="publisher")= gettext('+google')
+		ul.breadcrumbs.white.small
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'help',
+				target="_self" )=gettext('FAQ')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'wall',
+				target="_self" )= gettext('blog')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'what-is',
+				target="_self" )= gettext('que es esto')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'cookies',
+				target="_self" )=gettext('Cookies')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'terms',
+				target="_self" )= gettext('terms')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'privacy',
+				target="_self" )= gettext('politica de privacidad')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'rules',
+				target="_self" )= gettext('rules')
+			li: a(href=GLOBAL.CONFIG.servers.www.url + 'business',
+				target="_self" )= gettext('publicidad')
+
+			li.active: a(href=GLOBAL.CONFIG.servers.www.url + 'company' )!= gettext('copy right', "Galeph", now.getFullYear() )

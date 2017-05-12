@@ -1,0 +1,58 @@
+include ../../api/views/mixins
+include ../../glph/views/mixins
+include ../../auth/views/mixins
+extends ../../glph/views/multiple
+
+block column
+	.ng-column-group.ng-gutters.top-space( deckgrid=true, source="items", cardTemplate="#{GLOBAL.CONFIG.servers.shop.url}#{sessionID}.card" )
+
+block big
+	section(ng-show="!items.length")
+		h4.align-center.uppercase.fw-100= gettext('no exiten articulos en el carro')
+
+block Beforelateral
+	h3( view-title )= gettext('carrito de compras')
+	section.all-100( ng-controller="methods", ng-hide="!$parent.items.length")
+		article.ng-column-group.vertical-space
+			section.term
+				.all-50= gettext('subtotal')
+				.all-50.align-right {{total() | currency }}
+			section.term( ng-show="sistem >= 0" )
+				.all-50= gettext('impuestos')
+				.all-50.align-right {{ methods[sistem].tax  * 100 | number }}%
+			section.term( ng-show="sistem >= 0" )
+				.all-50= gettext('total')
+				.all-50.align-right {{ total() + ( total() * methods[sistem].tax ) + methods[sistem].more | currency }}
+
+		article.form
+			.control-group
+				p.label= gettext('pagar con')
+				.control.push-center
+					.button-group.push-center
+						label.button.medium( ng-repeat="method in methods", for="{{method.look}}", class="{{sistem === $index ? 'green' : 'white' }} all-{{size()}}" )
+							input.ng-hide( type="radio", ng-value="$index", id="{{method.look}}", ng-model="$parent.sistem", name="sistem" )
+							i.icon.icon-lg( class="icon-{{method.class}}" )
+							= '{{method.name}}'
+				p.half-space.align-center(ng-show="methods[sistem].name === 'card'")
+					i.icon.icon-cc-mastercard.half-left-space.icon-2x
+					i.icon.icon-cc-visa.half-left-space.icon-2x
+					i.icon.icon-cc-amex.half-left-space.icon-2x
+					i.icon.icon-cc-discover.half-left-space.icon-2x
+			if login
+				button.button.green.all-100.no-margin( ng-disabled="!methods[sistem]", ng-click="checkout();" )= gettext('pagar')
+			else
+				.control-group(ng-controller="Creator")
+					.button-group.push-center
+						.button.medium.white.all-50( ng-class="{ green : !login, white : login }", ng-click="login=false" )
+							=gettext('ingresar via')
+						.button.medium.white.all-50( ng-class="{ green : login, white : !login }", ng-click="login=true" )
+							=gettext('registrame')
+					.control.push-center
+						.iconz.bottom-padding.top-space
+							p.align-center= gettext('ingresar via')
+							+Auth().icon-2x
+						.login.half-top-space( ng-hide="login" )
+							+Login()
+						.create( ng-hide="!login")
+							+Creator()
+	.ng-hide( ng-event="cart" )

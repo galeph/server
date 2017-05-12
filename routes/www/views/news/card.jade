@@ -1,0 +1,35 @@
+include ../../../api/views/mixins
+include ../../../glph/views/mixins
+
+article.super-card.bottom-space( id="{{card.id}}" )
+	section.all-100.card-user
+		a.user(ng-href="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', '{{card.user.profile.nick}}')}", analytics-on=true, ng-if="!card.me", target="_self" )
+			.quarter-top-space
+				+avatar( '/{{card.user._id}}.user.avatar', 40, '{{card.user.profile.nick}}', '{{card.user.profile._id}}' ).quarter-horizontal-space.push-left
+				h1.medium.fw-100.push-left.quarter-bottom-space {{card.user.profile.name}}
+					p.small.text-margin.fw-700 @{{card.user.profile.nick}}
+	//- nav.ng-navigation.all-100
+		ul.pills.white.menus
+			input.ng-hide.hide-all(type="checkbox", ng-model="card.menu", id="menu-{{card._id}}")
+			li( ng-class="{ active : card.menu }" ): label.a.icon.icon-angle-down(for="menu-{{card._id}}" )
+		ul.menu.vertical.white( ng-show="card.menu" )
+			block menu
+	section.card.quarter-horizontal-padding(  ng-switch="card.is" )
+		p.note( ng-switch-when="0" )
+			i.icon.icon-2x.push-left.quarter-right-space.icon-heart
+			= gettext('le dio me gusta')
+		p.note( ng-switch-when="1" )
+			i.icon.icon-2x.push-left.quarter-right-space.icon-comments-o
+			span.text( ng-bind-html="card.text | links:250" )
+		p.note( ng-switch-when="2" )
+			i.icon.icon-2x.push-left.quarter-right-space.icon-user-plus
+			= gettext('te han seguido')
+		p.note( ng-switch-when="3" )
+			i.icon.icon-2x.push-left.quarter-right-space.icon-comments-o
+			span.text( ng-bind-html="card.text | links:250" )
+		p.note( ng-switch-default )
+			= gettext('no conocemos el contenido')
+	nav.ng-navigation.all-100
+		ul.breadcrumbs.white
+			li: a( am-time-ago="card.date" )
+			li: a( ng-href="{{card.url}}" )= gettext('ver mas')

@@ -1,0 +1,31 @@
+include ../../../api/views/mixins
+
+view-title.ng-hide= gettext('configuracion')
+section.ng-tabs.left.flex.top-padding.left-space
+	ul.tabs-nav.menu.large-15.xlarge-15.medium-100.small-100.tiny-100
+		li( ng-class="{ active: tab.account }" ): a( href="/settings" )= gettext('cuenta')
+		//- li( ng-class="{ active: tab.security }" ): a( href="/settings/security" )= gettext('seguridad')
+		li( ng-class="{ active: tab.password }" ): a( href="/settings/password" )= gettext('contrasena')
+		li( ng-class="{ active: tab.notification }" ): a( href="/settings/notification" )= gettext('notificaciones')
+		li( ng-class="{ active: tab.extend }" ): a( href="/settings/extend" )= gettext('cuentas conectadas')
+	article.tabs-content.large-85.xlarge-85.medium-100.small-100.tiny-100( ng-include='url' )
+
++template('angular', 'saves')
+	form#send.form( name="send", ng-submit="$parent.senw()" )
+		if !me.isValidPassword(me._id.toString())
+			.control-group
+				label= gettext('coloque su contrasena para enviar los cambios')
+				.control
+					input(type="password", placeholder=gettext('coloque su contraseña'), ng-model="$parent.acc.review", ng-required="true")
+				p.tip: a(href=GLOBAL.CONFIG.servers.auth.url + 'recover' )= gettext('olvidaste contrasena')
+		button.button.green.push-right( type="submit",  ng-disabled="send.$invalid" )= gettext('guardar')
+
++template('angular', 'actives')
+	label.icon( for="principal-{{ids}}", class="icon-{{ principal === ids ? 'check-' : '' }}square-o" )
+		span.half-left-space {{mailActive}}
+			a.left-space( ng-click="Deletes()", ng-if="principal !== ids"): i.icon.icon-trash.strong
+		p( ng-if="!isActive" )
+			a.strong( ng-click="sendMail()", ng-show="!sendData")= gettext('enviar codigo de confirmacion')
+			span(ng-show="sendData")= gettext('enviado')
+
+//- {{principal === '#{email._id.toString()}' ? '' : '' }}

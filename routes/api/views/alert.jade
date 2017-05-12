@@ -1,0 +1,22 @@
+if !agent.support || flash.length > 0
+	section.top-padding
+		if !agent.support && !agent.bot
+			alert( color="error", title=gettext("actualize su navegador") )
+				p=gettext("por favor descarga un navegador actualizado")
+				.ng-column-group.ng-gutter.align-center
+					a.large-30.xlarge-30.small-100.medium-30.push-left( href="http://www.mozilla.org/firefox/" )
+						img(src= cacheLink("firefox-151.png"), alt="Firefox" )
+						h5 Firefox
+					a.large-30.xlarge-30.small-100.medium-30.push-left(href="http://www.opera.com/" )
+						img(src= cacheLink("opera-145.png"), alt="Opera" )
+						h5 Opera
+					a.large-30.xlarge-30.small-100.medium-30.push-left(href="http://www.google.com/chrome/" )
+						img(src= cacheLink("chrome-158.png"), alt="Google Chorme" )
+						h5 Google Chorme
+		for message, i in flash
+			- var title = message.name ? gettext(message.name) : null;
+			alert(
+				color= message.type,
+				title= title === message.name || !title || typeof title === 'undefined' ? false : title,
+				num=message.message,
+				remove=true )= gettext(message.message)

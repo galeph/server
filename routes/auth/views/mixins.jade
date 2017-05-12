@@ -1,0 +1,145 @@
+//- required="required", pattern="/^?([a-z|A-Z|0-9|_|-]{5,16}|([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6}))$/" )
+
+mixin Auth()
+	p#networks.half-space.align-center
+		//- Descartados
+		//- a.icon.icon-twitter-square(target="_self", href= "#{GLOBAL.CONFIG.servers.auth.url}twitter", class=attributes.class)
+		//- a.half-left-space.icon.icon-tumblr-square(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}tumbr", class=attributes.class)
+		//- a.half-left-space.icon.icon-soundcloud(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}soundcloud", class=attributes.class)
+		//- a.half-left-space.icon.icon-paypal(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}paypal", class=attributes.class)
+		a.icon-3x.icon.icon-google-plus-square(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}google?ref=#{GLOBAL.CONFIG.servers.www.url}" , class=attributes.class)
+		//- a.half-left-space.icon-3x.icon.icon-facebook-square(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}facebook", class=attributes.class)
+		a.half-left-space.icon-3x.icon.icon-yahoo(target="_self", href="#{GLOBAL.CONFIG.servers.auth.url}yahoo?ref=?ref=#{GLOBAL.CONFIG.servers.www.url}", class=attributes.class)
+
+mixin Creator()
+	form.form#create(method="POST", name="create", action= '#{GLOBAL.CONFIG.servers.auth.url}create?ref=#{GLOBAL.CONFIG.servers.www.url}' )
+		input.hide-all( type="text", name="sec", value= sessionID )
+		ol.unstyled( re-input="email,pass,repass,nick,names#{session.showauth ? ',recaptcha_response_field': ''}"  )
+			ng-progress.no-margin( total=session.showauth ? 6 : 5, progress="step", color='classes()' )
+				span= gettext('registrame')
+			li.control-group.validation( ng-show="step == 0 ", ng-class="{ error : create.email.$dirty && create.email.$invalid }" )
+				.control.append-button
+					span: input#email.big(
+						type="email",
+						name="email",
+						ng-model="user.email",
+						placeholder= gettext("email"),
+						ng-trim="true",
+						required= true,
+						ng-required="true",
+						is-unique="mail" )
+					button.button.white.big(ng-click="nexts()", ng-disabled="create.email.$invalid")
+						i.icon.icon-arrow-right
+				.section( ng-messages="create.email.$error" )
+					p.tip( ng-message="required")= gettext('coloque un email')
+					p.tip( ng-message="email")= gettext('coloque un email valido')
+					p.tip( ng-message="isLoadings")= gettext('buscando')
+					p.tip( ng-message="isUnique")= gettext('seguro usted no se ha regstrado')
+			li.control-group.validation( ng-show="step == 1 ", ng-class="{ warning : create.pass.$dirty && create.pass.$invalid }" )
+				.control.append-button
+					span: input#pass.big(
+						type="password",
+						name="pass",
+						ng-model="user.pass",
+						title= gettext("contrasena"),
+						placeholder= gettext("contrasena"),
+						ng-Required="true",
+						ng-Minlength="4" )
+					button.button.white.big(ng-click="nexts()", ng-disabled="create.pass.$invalid")
+						i.icon.icon-arrow-right
+				.section( ng-messages="create.pass.$error" )
+					p.tip( ng-message="required")= gettext('coloque una constrasena')
+					p.tip( ng-message="minlength")= gettext('coloque una constrasena mas fuerte')
+			li.control-group.validation( ng-show="step == 2 ", ng-class="{ warning : create.repass.$dirty && create.repass.$invalid }" )
+				.control.append-button.prepend-button
+					button.button.white.big(ng-click="back()" )
+						i.icon.icon-arrow-left
+					span: input#repass.big(
+						type="password",
+						name="repass",
+						ng-model="user.repass",
+						title= gettext("contrasena"),
+						placeholder= gettext("contrasena"),
+						re-pass="user.pass",
+						ng-Required="true",
+						ng-Minlength="4" )
+					button.button.white.big(ng-click="nexts()", ng-disabled="create.repass.$invalid")
+						i.icon.icon-arrow-right
+				.section( ng-messages="create.repass.$error" )
+					p.tip( ng-message="required")= gettext('vuelva a colocar la constrasena')
+					p.tip( ng-message="minlength")= gettext('coloque una constrasena mas fuerte')
+					p.tip( ng-message="matchs")= gettext('seguro que esa es la constrasena')
+			li.control-group.validation( ng-show="step == 3 ", ng-class="{ error : create.nick.$dirty && create.nick.$invalid }" )
+				.control.append-button
+					span: input#nick.big(
+						type="text",
+						name="nick",
+						ng-model="user.nick",
+						ng-required="true",
+						ng-minlength=4,
+						ng-maxlength=15,
+						is-unique="user",
+						ng-pattern="/^[a-z]{1}[a-z0-9_-]{3,13}[a-z|0-9]{1}$/i" )
+					button.button.white.big(ng-click="nexts()", ng-disabled="create.nick.$invalid")
+						i.icon.icon-arrow-right
+				.section( ng-messages="create.nick.$error" )
+					p.tip( ng-message="required")= gettext('coloque un nick para identificarte')
+					p.tip( ng-message="minlength")= gettext('coloque un nick un poco mas largo')
+					p.tip( ng-message="maxlength")= gettext('que sea un poco mas corto')
+					p.tip( ng-message="isLoadings")= gettext('buscando')
+					p.tip( ng-message="isUnique")= gettext('hey intenta con otro')
+			li.control-group.validation( ng-show="step == 4 " )
+				.control.append-button
+					span: input#name.big(
+						type="text",
+						name="names",
+						ng-model="user.names",
+						title= gettext("nombre completo"),
+						placeholder= gettext("nombre completo"),
+						value= names,
+						ng-required="true" )
+					button.button.white.big( type= !session.showauth ? "submit" : false, ng-click="nexts()", ng-disabled= !session.showauth ? "!create.$valid" : "create.names.$invalid" )
+							i.icon.icon-arrow-right
+			if session.showauth
+				li.control-group#recaps(re-captcha, ng-show="step == 5", ng-model="user.captcha")
+					label#recaptcha_image
+					.control.append-button
+						span: input#recaptcha_response_field.big(
+							type="text",
+							name="recaptcha_response_field",
+							placeholder= gettext("escribe lo de arriba") )
+						button.button.white.big( type="submit", ng-disabled="create.$invalid" )
+							i.icon.icon-arrow-right
+					p.tip= gettext('un momento eres humano')
+						a( ng-click="reload()" )= gettext('recargar imagen')
+			li.control-group( ng-show="#{'step == ' + ( session.showauth ? 6 : 5 )}" )
+				input.ng-hide(type="hidden" name="_csrf" value="#{sessionID}")
+				h4.align-center= gettext("te estamos registrado")
+
+mixin Login()
+	form#login.form(action= GLOBAL.CONFIG.servers.auth.url + "login", autocomplete="on", method="POST", name="login")
+		input.ng-mostrar(type="hidden" name="_csrf" value="#{sessionID}")
+		.control-group
+			label.show-all(for="user")= gettext("usuario o email")
+			.control
+				input#user.all-100(
+					type="text",
+					name="username",
+					title= gettext("usuario o email"),
+					placeholder= gettext("usuario o email"))
+		.control-group
+			label.show-all(for="pass")= gettext("contrasena")
+			.control
+				input#pass.all-100(
+					type="password",
+					name="password",
+					title= gettext("contrasena"),
+					placeholder= gettext("contrasena"),
+					required="required" )
+		.control-group.column-group.no-margin
+			.control.simple.all-60
+				input#noclose.checkbox(type="checkbox", name="noclose", ng-model="noclose" )
+				p.no-margin: label.icon.noclose( for="noclose", class="icon-{{noclose? 'check-' : '' }}square-o" )= gettext("no cerrar")
+				p.no-margin: a.space-vertical(href=GLOBAL.CONFIG.servers.auth.url + 'recover', target="_self")= gettext("olvidaste contrasena")
+			.control-group.all-40
+				button.button.all-100.no-margin( type="submit", name="login" )= gettext("ingresar")

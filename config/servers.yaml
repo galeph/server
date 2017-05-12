@@ -1,0 +1,79 @@
+default:
+    import:
+        hostname: DOMAIN.COM
+    embe:
+        hostname: DOMAIN.COM
+    shop:
+        hostname: DOMAIN.COM
+    search:
+        hostname: DOMAIN.COM
+    feed:
+        hostname: DOMAIN.COM
+    auth:
+        hostname: DOMAIN.COM
+    api:
+        hostname: DOMAIN.COM
+    glph:
+        hostname: DOMAIN.COM
+    www:
+        hostname: DOMAIN.COM
+
+development:
+    import:
+        index: 1
+    api:
+        index: 2
+        regexp: ([a-f0-9]{24}.)?api
+        inject: true
+    feed:
+        index: 3
+    embe:
+        index: 4
+        inject: true
+    search:
+        index: 5
+        regexp: (search|buscar)
+        inject: true
+    auth:
+        index: 6
+    glph:
+        index: 7
+        regexp: ([a-z0-9\_\-]{5,15})
+    shop:
+        index: 8
+        regexp: (sell|shop)
+    www:
+        index: 9
+
+production:
+    import:
+        index: 1
+        analytic: #{process.env.ANALYTIC}
+    api:
+        index: 2
+        regexp: ([a-f0-9]{24}.)?api
+        inject: true
+    feed:
+        index: 3
+    embe:
+        index: 4
+        inject: true
+    search:
+        index: 5
+        analytic: #{process.env.ANALYTIC}
+        regexp: (search|buscar)
+        inject: true
+    auth:
+        index: 6
+        analytic: #{process.env.ANALYTIC}
+    glph:
+        index: 7
+        analytic: 
+        regexp: ([a-z0-9\_\-]{5,15})
+    shop:
+        index: 8
+        analytic: #{process.env.ANALYTIC}
+        regexp: (sell|shop)
+    www:
+        index: 9
+        analytic: #{process.env.ANALYTIC}

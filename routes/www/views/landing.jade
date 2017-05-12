@@ -1,0 +1,64 @@
+extends ../../api/views/layout
+include ../../auth/views/mixins
+
+block data
+	meta( property='og:title',
+		content=gettext('Galeph') )
+	meta( property='og:description',
+		itemprop='description',
+		name='description',
+		content=gettext('meta description galeph') )
+	meta( name='twitter:description',
+		content=gettext('meta description galeph') )
+	meta( property='og:url',
+		content=GLOBAL.CONFIG.servers.www.url )
+
+	meta( name='keywords',
+		content=gettext('meta keyword galeph'))
+	meta( property='og:image',
+		name='twitter:image',
+		content=cacheLink('graph-280x.png') )
+
+	link( property='org:blogPosts',
+		href=GLOBAL.CONFIG.servers.api.url.replace('api',
+		'wall'),
+		rel='blog' )
+	link( property='org:about',
+		href=GLOBAL.CONFIG.servers.api.url.replace('api',
+		'about'),
+		rel='about' )
+	link( href='https://plus.google.com/112330520573707428234',
+		rel='publisher' )
+	link( href='http://facebook.com/' + gettext('Galeph'),
+		rel='publisher' )
+	link( href='http://twitter.com/' + gettext('twitter galeph'),
+		rel='publisher')
+	link( rel='prefetch',
+		href=cacheLink('graph-280x.png') )
+
+block Script
+	script( type='text/javascript', src=cacheLink('www-land.js') )
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.www.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.www.analytic)
+
+block content
+	.push-center.medium-100.small-100.tiny-100.large-100.all-90
+		section.ng-gutters.ng-column-group.double-top-padding
+			article.xlarge-33.large-33.medium-100.small-100.tiny-100
+				h1!= gettext('copy 1')
+				.large.condensed
+					p= gettext('copy 4')
+					p= gettext('copy 2')
+			article.xlarge-33.large-33.medium-50.small-100.tiny-100( ng-controller='Creator' )
+				.iconz.bottom-padding.top-space.bottom-padding.top-padding.top-space.large-top-space.xlarge-top-space
+					p.align-center= gettext('ingresar via')
+					+Auth().icon-2x
+				+Creator()
+			article.xlarge-33.large-33.medium-50.small-100.tiny-100
+				.large-double-top-space.top-padding.xlarge-double-top-space
+					+Login()
+	include footer

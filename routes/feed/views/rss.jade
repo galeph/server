@@ -1,0 +1,36 @@
+doctype xml
+rss( version="2.0", xmlns:content="http://purl.org/rss/1.0/modules/content/", xmlns:atom='http://www.w3.org/2005/Atom' )
+	channel
+		if title
+			title= gettext(title, types )
+
+		if user
+			title= gettext('title user', user.profile.nick , user.profile.name )
+			description= user.profile.descr
+
+		link= ( url || GLOBAL.CONFIG.servers.shop.url + types )
+		lastBuildDate= now.toUTCString()
+
+		docs http://blogs.law.harvard.edu/tech/rs
+		atom:link( href=GLOBAL.CONFIG.servers.feed.url + is + '?feed=atom', rel="self", type="application/rss+xml" )
+
+		ttl 60
+
+		generator=gettext('generator', GLOBAL.CONFIG.servers.www.url + 'feed', 'RSS' )
+
+		each item, i in items
+			item
+				title!= item.descri || gettext('no title %s', item.creator.profile.nick)
+				link=item.permanentLink()
+				guid( isPermaLink="true" )= item._id
+
+				updated= item.dateLa.toUTCString()
+				pubDate= item.dateCr.toUTCString()
+
+				if item.descri
+					description <![CDATA[!{item.convertHtml()}]]>
+					content:encoded <![CDATA[!{item.convertHtml()}]]>
+
+				author
+					name= gettext('name', item.creator.profile.nick , item.creator.profile.name)
+					link= GLOBAL.CONFIG.servers.api.url.replace('api', item.creator.profile.nick )

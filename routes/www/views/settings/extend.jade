@@ -1,0 +1,24 @@
+.overflow.half-bottom-space
+	h4.push-left= gettext('configura la coneccion de tus cuentas')
+dl.unstyled
+	each account in GLOBAL.CONFIG.key.external
+		dt
+			if _.isObject(me.connect.social[ account ]) && me.connect.social[ account ].datas.image
+				img.icon.icon-2x.pull-left(src=me.connect.social[ account ].datas.image, alt= me.connect.social[ account ].datas.nick, width=48, height=48 )
+			else
+				i.icon.icon-2x.pull-left.icon-border.icon-squares-2x( class="icon-#{account}" )
+			= _.humanize(account)
+			if _.isObject(me.connect.social[ account ])
+				= ': '
+				if me.connect.social[ account ].datas.url
+					a.small(href=me.connect.social[ account ].datas.url, target="_blank")= me.connect.social[ account ].datas.nick
+				else
+					.small= me.connect.social[ account ].datas.nick
+		dd
+			if _.isObject(me.connect.social[ account ])
+				p 
+					a.button.white.small( href="#{GLOBAL.CONFIG.servers.auth.url}disconnect/#{account}?ref=#{GLOBAL.CONFIG.servers.www.url}settings/extend" )
+						= gettext('desconnectar')
+			else
+				a.button.white.small( href=GLOBAL.CONFIG.servers.auth.url + account + '?ref=#{GLOBAL.CONFIG.servers.www.url}settings/extend' )
+					= gettext('connectar')

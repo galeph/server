@@ -1,0 +1,12 @@
+li.comment( id="{{comment._id}}", ng-repeat="comment in items | filter:bar")
+	nav.ng-navigation.quarter-horizontal-space
+		a.user.push-left(ng-href="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', '{{comment.user.profile.nick}}')}", analytics-on=true, style="display:inline-block")
+			+avatar( '/{{comment.user._id}}.user.avatar', 40, '{{comment.user.profile.nick}}', '{{comment.user.profile._id}}' ).quarter-right-space.push-left
+			h4.push-left.fw-300 {{comment.user.profile.name}}
+				span.small.quarter-left-space.fw-700 @{{comment.user.profile.nick}}	
+		ul.pills.more.green.push-right
+			span.time.small.push-left.quarter-vertical-space.right-space( am-time-ago="comment.date" )
+			li.no-margin( trash="{{comment._id}}", user="{{comment.user._id}}" ): a.icon.icon-trash
+
+	.all-100.txt.quarter-horizontal-space.quarter-top-padding.left-space
+		p.text.all-100.quarter-vertical-space.quarter-left-space( ng-bind-html="comment.text | links:250" )

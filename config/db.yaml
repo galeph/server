@@ -1,0 +1,22 @@
+default:
+    hostname: localhost
+    pathname: mydb
+    port: 27017
+    slashes: true
+    protocol: mongodb
+    opts:
+        db:
+            recordquerystats: true
+            journal: true
+        server:
+            poolsize: 15
+            reconnect: true
+
+development:
+    pathname: MY_DB
+
+production:
+    href: #{process.env.MONGOLAB_URI}
+    opts:
+        server:
+            poolsize: 10

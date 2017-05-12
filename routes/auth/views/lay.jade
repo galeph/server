@@ -1,0 +1,16 @@
+extends ../../api/views/layout
+include mixins
+
+block Script
+	script( type='text/javascript', src=cacheLink('www-land.js') )
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.auth.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.auth.analytic)
+
+block content
+	section.xlarge-33.large-40.medium-65.small-100.tiny-100.push-center.content-center.top-padding
+		block smalls
+	include ../../www/views/footer

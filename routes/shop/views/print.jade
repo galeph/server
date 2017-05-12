@@ -1,0 +1,52 @@
+extends ../../api/views/print
+include ../../api/views/mixins
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.shop.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.shop.analytic)
+
+block content
+	.column-group.all-100.half-top-space
+		address.all-50
+			a( href= GLOBAL.CONFIG.servers.www.url, target='_blank' ): img( src=cacheLink('logo_t-110x.png'), alt= gettext('Galeph'))
+			p= gettext('galeph address')
+		.all-50
+			dt( view-title=true )= gettext('factura')
+				dd.uppercase=check._id
+				dd.fw-100=_.humanize(moment( check.dateLa ).format('MMMM DD, YYYY'))
+				dd: a( href='#{GLOBAL.CONFIG.servers.shop.url}#{form}/#{check._id}' )= gettext('imprimir')
+	address.all-100
+		h6.no-margin= gettext( seller ? 'vendedor' : 'comprador')
+		dt=( me.profile.name || '' ) + ' @' + me.profile.nick
+			dd.uppercase=me._id
+			dd= gettext('email') + ': ' + me.connect.principal.mail
+			dd= gettext('url') + ': ' + GLOBAL.CONFIG.servers.shop.url.replace('shop', me.profile.nick )
+	table.ng-table.alternating.all-100.top-space
+		thead: tr
+			th.uppercase= gettext('id')
+			th.align-left= gettext('licensia')
+			th.align-left= gettext('url')
+			th.align-left= gettext('descripcion')
+			th.align-left= gettext('propiedad')
+			th.align-right= gettext('impuestos')
+			th.align-right= gettext('precio')
+		tfoot: tr
+			th
+			th
+			th
+			th
+			th
+			th= gettext('total')
+			th {{#{check.price} | currency }}
+		tbody
+			each baucher, i in check.baucher
+				tr
+					td.uppercase= baucher.item._id
+					td= gettext('licensia basica')
+					td= GLOBAL.CONFIG.servers.shop.url.replace('shop', baucher.seller.profile.nick ) + baucher.item.id_
+					td= baucher.item.descrip
+					td= ( baucher.seller.profile.name || '' ) + ' @' + baucher.seller.profile.nick
+					td {{ #{(check.methodExec.tax * baucher.price ) + check.methodExec.more} | currency }}
+					td {{#{baucher.price} | currency }}

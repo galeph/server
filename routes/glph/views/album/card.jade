@@ -1,0 +1,10 @@
+extends ../ng-card
+
+block menu
+	if login && user._id.toString() === me._id.toString()
+		li: a( ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick)}{{card.id_}}?to=edit" )= gettext('editar')
+		li( ng-if="card.isImage" ): a( ng-click="addProfile('avata')" )= gettext('colocar como avatar')
+		li( ng-if="card.isImage" ): a( ng-click="addProfile('porta')" )= gettext('colocar como portada')
+		li: a(ng-click="delete()" )= gettext('eliminar')
+	else
+		li: a( ng-click="report()" )= gettext('denunciar')

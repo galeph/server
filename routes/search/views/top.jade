@@ -1,0 +1,25 @@
+extend ../../api/views/7525
+include ../../api/views/mixins
+
+block before
+	link( view-head=true, rel="alternate", type="application/rss+xml", href= GLOBAL.CONFIG.servers.feed.url + "top")
+	link( view-head=true, rel="alternate", type="application/atom+xml", href= GLOBAL.CONFIG.servers.feed.url + "top?feed=atom")
+	meta(view-head=true, property="og:title", content=gettext("Galeph") + " - " + gettext("top") )
+	meta(view-head=true, property="og:description", itemprop="description", name="description", content=gettext("meta description top") )
+	meta(view-head=true, name="twitter:description", content=gettext("meta description top") )
+	meta(view-head=true, name="keywords", content=gettext("meta keyword top"))
+
+block small
+	nav.ng-navigation
+		h1( view-title )= gettext('top')
+		ul.menu.vertical.white
+			li: a(href=GLOBAL.CONFIG.servers.search.url + "top?time=days" )= gettext('diario')
+			li: a(href=GLOBAL.CONFIG.servers.search.url + "top?time=weeks" )= gettext('semana')
+			li: a(href=GLOBAL.CONFIG.servers.search.url + "top?time=months" )= gettext('mes')
+			li: a(href=GLOBAL.CONFIG.servers.search.url + "top?time=year" )= gettext('ano')
+
+block contents
+	.ng-column-group.ng-gutters.top-space
+		ol.all-33( ng-repeat="col in items" )
+			li.item( ng-repeat="card in col", ng-include="'#{GLOBAL.CONFIG.servers.search.url}#{sessionID}.card'" )
+		+increment("push", 'top')

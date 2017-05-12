@@ -1,0 +1,13 @@
+extends ../../api/views/layout
+
+block Script
+	script( type="text/javascript", src=cacheLink('www' + ( login ?  '.js' : '-land.js') ) )
+
+block constants
+	+constant('URL', GLOBAL.CONFIG.servers.www.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.www.analytic)
+
+block content
+	include error

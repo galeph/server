@@ -1,0 +1,9 @@
+extends lay
+
+block smalls
+	view-title= gettext("registrame")
+	.iconz.bottom-padding.top-space
+		p.align-center= gettext("ingresar via")
+		+Auth().icon-2x
+	.bottom-padding.top-space( ng-controller="Creator")
+		+Creator

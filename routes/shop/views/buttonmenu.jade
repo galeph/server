@@ -1,0 +1,12 @@
+ul.pills.more.green
+	li.top.rounded.bounce( data-tool=gettext('me gusta') ): a.icon( class="icon-heart{{isLike ? '' : '-o' }}", ng-click="like()") {{count | max:0}}
+	if query.is != 'in-card'
+		li.top.rounded.bounce( data-tool=gettext('favorito') ): a.icon( class="icon-bookmark{{isFavorite ? '' : '-o' }}", ng-click="favorite()")
+	if query.is === 'in-card'
+		li.top.rounded.bounce( data-tool=gettext('status de la trancacion') ): a.icon( ng-href="{{urlTo}}", class="{{card.checkIn.color}} icon-{{tipe}}" ) 
+	if query.is === 'out-card'
+		li.top.rounded.bounce( data-tool=gettext('descargar dinero') ): a.icon.icon-cart-arrow-down( ng-click="select()" )
+	if !query.is
+		li.top.rounded.bounce( data-tool=gettext('quita al carro') ): a.icon.icon-trash-o( ng-click="$parent.removeCart()" )
+	if query.is != 'out-card'
+		li: a.icon.icon-shopping-cart {{ isCart.price | currency}}

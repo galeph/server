@@ -1,0 +1,22 @@
+extends ../../api/views/layout
+include ../../api/views/mixins
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.shop.url)
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.shop.analytic)
+
+block Script
+	script( type="text/javascript",
+		src=cacheLink('shop.js') )
+	link( view-head=true,
+		rel='stylesheet',
+		type='text/css',
+		href=cacheLink('ngDialog/css/ngDialog.css', true ),
+		charset='utf-8' )
+
+block out
+
+block content
+	section.ng-column-group.ng-gutters( ng-view=true )

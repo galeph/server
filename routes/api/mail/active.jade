@@ -1,0 +1,9 @@
+extends out
+block content
+	table.twelve.columns: tr.render
+		td.panel
+			p= gettext('saludo %s', me.profile.name )
+			.start!= gettext('activar texto inical')
+			table.button: tr
+				td: a( href= GLOBAL.CONFIG.servers.auth.url + me.linkActive(toActiveMail) )= gettext('btn activar')
+			.fainal!= gettext('activar texto final')

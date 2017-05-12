@@ -1,0 +1,16 @@
+extends ../../../api/views/7525
+include ../../../glph/views/mixins
+include ../../../api/views/mixins
+
+block before
+
+block small
+	h3( view-title )= gettext('bays')
+
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.shop.url}#{sessionID}.in-card" )
+	section( ng-show="!items.length", ng-event="checkin" )
+		h4.align-center.uppercase.fw-100= gettext('no exiten articulos comprados')

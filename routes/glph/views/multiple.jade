@@ -1,0 +1,77 @@
+include ../../api/views/mixins
+include mixins
+
+block before
+
+section.all-30.push-right.medium-100.medium-100.small-100.tiny-100.top-space
+	block Beforelateral
+	if login && !cart && ( _.isEmpty(user) || user._id.toString() === me._id.toString() )
+		form.xlarge-bottom-space.large-bottom-space.half-bottom-space.small-top-space.medium-top-space.tiny-top-space( action= GLOBAL.CONFIG.servers.embe.url + 'z', method="post", enctype="multipart/form-data", ng-show="!edit" )
+			input.hide-all#box( type="file", file="flrz", accept="image/*,audio/*,video/*")
+			label.button.grey.radius.all-100( for="box" )= gettext("arraste")
+	block lateral
+	.all-100.vertical-space.hide-medium.hide-small.hide-tiny
+		include ../../www/views/footer
+
+section.all-70.push-left.grid.medium-100.small-100.tiny-100
+	if login && !cart && ( _.isEmpty(user) || user._id.toString() === me._id.toString() )
+		//-mentio-template-url='cardx-mention',
+		mentio-menu.hide-all#mention(
+			mentio-for="'mention'",
+			mentio-trigger-char="'@'",
+			mentio-items="person",
+			mentio-search="search(term)",
+			mentio-select="gets(item)" )
+		section.push-center.ng-column-group.xlarge-75.large-100.medium-100.small-100.tiny-100.xlarge-double-top-space.large-double-top-space.medium-no-margin.small-no-margin( ng-show="more.length" )
+			section.all-10: +avatar( me, 70 ).big.top-space
+			ul.all-85.unstyled
+				li.ng-column-group.upload-card.padding.no-margin( ng-repeat="card in more", ng-controller="item" )
+					.all-50
+						img.all-100(ng-src="data:{{ card.type }};base64,{{ card.body }}", alt="card.descr", ng-if="card.isImage")
+					.all-50
+						.form( ng-show="!card.send" )
+							.control-group
+								.control.mime.tags
+									input.no-focus(
+										id="album-{{card._id}}",
+										type="text",
+										ng-model="card.album",
+										placeholder= gettext("tus albumnes") )
+								.control.mime
+									textarea.no-focus(
+										id="descr-{{card._id}}",
+										ng-model="card.descri",
+										ng-lengths=250,
+										placeholder= gettext("tu descripcion") )
+									//- 	mentio=true,
+									//- 	mentio-require-leading-space="true",
+									//- 	mentio-id="'mention'"
+							if me.connect.principal.confirm
+								.control-group
+									.control.push-right
+										input.checkbox(
+											id="sell-{{card._id}}",
+											type="checkbox",
+											name="sell-{{card._id}}",
+											ng-model="card.sell")
+										label.icon.ali( for="sell-{{card._id}}", class="icon-{{card.sell ? 'check-' : '' }}square-o")= gettext("gosell")
+								.control-group( ng-show="card.sell")
+									.control.append-button.mime
+										span: input.no-radius(
+											id="price-{{card._id}}"
+											name="price-{{card._id}}",
+											type="number",
+											placeholder= gettext("valor") ,
+											ng-model="card.price",
+											ng-disabled="!card.sell" )
+										label.button( for="price-{{card._id}}", ng-class="{ white : card.sell }" )= gettext('currency USD')
+							else
+								p= gettext('active su cuenta')
+							button.button.green.all-100(ng-click="upInfo()")= gettext('publicar')
+						.form.padding( ng-show="card.send" )
+							ng-progress( total="100", progress="card.percent", color="'green'" )
+	block column
+	if !cart	
+		+increment("push", isType)
+
+	block big

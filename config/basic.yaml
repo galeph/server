@@ -1,0 +1,35 @@
+default:
+    text:
+        coment: 163
+        name: 28
+        nick:
+            max: 15
+            min: 5
+    shop:
+        min: 0
+        max: 200
+    recover:
+        type: days
+        time: 2
+    crypto:
+        algo: whirlpool
+        type: ascii
+    send money:
+        type: days
+        time: 15
+
+development:
+    crypto:
+        dige: base64
+
+production:
+    crypto:
+        dige: base64
+    robots:
+        - 'User-agent: *'
+        - 'Disallow: /news'
+        - 'Disallow: /settings'
+        - 'Disallow: /sell'
+        - 'Disallow: /shop'
+        - 'Disallow: /cart'
+        - 'Disallow: /whishlist'

@@ -1,0 +1,21 @@
+include ../../api/views/mixins
+include ../../glph/views/mixins
+
+- var nick = seller || template == 'in-card' ? "{{card.seller.profile.nick}}" : me.profile.nick;
+
+article.super-card.bottom-space( id="{{card._id}}", ng-controller="item" )
+	block card
+	nav.ng-navigation.all-100
+		ul.pills.white.menus
+			input.ng-hide.hide-all(type="checkbox", ng-model="card.menu", id="menu-{{card._id}}")
+			li( ng-class="{ active : card.menu }" ): label.a.icon.icon-angle-down(for="menu-{{card._id}}" )
+		ul.menu.vertical.white( ng-show="card.menu" )
+			block menu
+	section.card.half-top-padding
+		a.item( ng-class="{ open : card.menu }", ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.item.id_}}", analytics-on=true, scroll-to="body")
+			img.all-100(min-width=100, ng-src="#{GLOBAL.CONFIG.servers.embe.url}250x.image/#{sessionID}{{card.item.URI}}", alt="{{card.item.descripcioni}}", ng-if="card.item.isImage" )
+			img.all-100( ng-src="#{GLOBAL.CONFIG.servers.embe.url}75x75.video/#{sessionID}{{card.item.URI}}", alt="{{card.item.descripcioni}}", ng-if="card.item.isVideo" )
+			img.all-100( ng-src="#{GLOBAL.CONFIG.servers.embe.url}75x75.audio/#{sessionID}{{card.item.URI}}", alt="{{card.item.descripcioni}}", ng-if="card.item.isAudio" )
+		nav.ng-navigation.quarter-horizontal-space( feedback="{{card.item._id}}", cart="card.item.sell", bay="card.checkIn.status", nick="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.item.id_}}", shop=template)
+	section.all-100
+		block description

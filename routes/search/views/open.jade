@@ -1,0 +1,11 @@
+doctype xml
+OpenSearchDescription(
+	xmlns="http://a9.com/-/spec/opensearch/1.1/",
+	xmlns:moz="http://www.mozilla.org/2006/browser/search/" )
+
+	ShortName= gettext("Galeph")
+	Description= gettext("meta description search")
+	Url( type="text/html", method="get", template= GLOBAL.CONFIG.servers.search.url + "?q={searchTerms}" )
+	InputEncoding UTF-8
+	Image( width="16", height="16")= GLOBAL.CONFIG.response.cdn + "favicon.ico"
+	moz:SearchForm= GLOBAL.CONFIG.servers.search.url

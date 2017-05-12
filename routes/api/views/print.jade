@@ -1,0 +1,14 @@
+include mixins
+
+doctype html
+html(
+	lang= session.lang ? session.lang.code : GLOBAL.CONFIG.response.lang,
+	prefix="og:http://ogp.me/ns#",
+	manifest= GLOBAL.CONFIG.response.cdn + 'application.manifest?v=' + version,
+	ng-app=app.name,
+	ng-strict-di=GLOBAL.CONFIG.response.strict )
+	head( id= ( now ||new Date() ).getTime() )
+		include head
+	body.ng-print.ng-grid.body( class= css )
+		block content
+		include scripts

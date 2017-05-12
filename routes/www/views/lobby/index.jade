@@ -1,0 +1,16 @@
+include ../../../glph/views/mixins
+extends ../../../glph/views/multiple
+
+block lateral
+	each s, i in [ 0, 1, 2 ]
+		hint-follow.all-100( num= i )
+	ads-ggl#7853639531
+
+block big
+	.ng-hide( ng-event="item" )
+
+block column
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.www.url + sessionID}.card" )

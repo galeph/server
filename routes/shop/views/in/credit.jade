@@ -1,0 +1,7 @@
+section
+	article(
+		ng-include="data.url",
+		gateway=true,
+		call-load="onLoad()"
+		call-back="onBack()",
+		ng-if="data.include" )

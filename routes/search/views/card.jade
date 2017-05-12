@@ -1,0 +1,19 @@
+extends ../../glph/views/ng-card
+
+block card
+	section.all-100.card-user
+		a.user(ng-href=GLOBAL.CONFIG.servers.glph.url.replace('glph', '{{card.creator.profile.nick}}'), analytics-on=true )
+			.quarter-top-space
+				+avatar( '/{{card.creator._id}}.user.avatar', 40, '{{card.creator.profile.nick}}', '{{card.creator.profile._id}}' ).quarter-horizontal-space.push-left
+				h1.medium.fw-100.push-left.quarter-bottom-space {{card.creator.profile.name}}
+					p.small.text-margin.fw-700 @{{card.creator.profile.nick}}
+
+block menu
+	if login
+		- var nick ="{{card.creator.profile.nick}}";
+		li( ng-if="!card.me", id="{{card.creator._id}}", follow="card.creator._id" )
+		li( ng-if="card.me" ): a( ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.id_}}?to=edit" )= gettext('editar')
+		li( ng-if="card.me && card.isImage" ): a( ng-click="addProfile('avata')" )= gettext('colocar como avatar')
+		li( ng-if="card.me && card.isImage" ): a( ng-click="addProfile('porta')" )= gettext('colocar como portada')
+	else
+		li( ng-if="!card.me" ): a( ng-click="report()" )= gettext('denunciar')

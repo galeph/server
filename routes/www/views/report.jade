@@ -1,0 +1,51 @@
+form.form( ng-submit="reportSend()", 
+	ng-show="rep.send == 0" )
+	fieldset
+		legend= gettext('motivo de la denuncia')
+		.control-group.validation.warning
+			p= gettext('algo es denuncia')
+			ul.control.unstyled
+				li
+					input#rb1.radio( ng-model="rep.selectors", 
+						required,
+						type="radio", 
+						name="rb", 
+						value="DMA - Derechos de autor")
+					label.icon( for="rb1", 
+						class="icon-{{ rep.selectors === 'DMA - Derechos de autor' ? 'check-' : '' }}square-o" )
+						span.half-left-space= gettext('problemas de derechos de autor')
+				li
+					input#rb2.radio( ng-model="rep.selectors", 
+						required, type="radio", 
+						name="rb", 
+						value="Content ilegal")
+					label.icon( for="rb2", 
+						class="icon-{{ rep.selectors === 'Content ilegal' ? 'check-' : '' }}square-o" )
+						span.half-left-space= gettext('contenido ilegal')
+				li
+					input#rb3.radio( ng-model="rep.selectors", 
+						required, type="radio", 
+						name="rb", 
+						value="other")
+					label.icon( for="rb3", 
+						class="icon-{{ rep.selectors === 'other' ? 'check-' : '' }}square-o" )
+						span.half-left-space= gettext('otro')
+
+			.control( ng-hide="rep.selectors != 'other'" )
+				textarea( ng-model="rep.data.message", 
+					ng-disabled="rep.selectors != 'other'", 
+					ng-required="rep.selectors != 'other'")
+
+	.control-group.validation.warning( class= login ? "ng-hide" : "" )
+		label( for="mail" )= gettext('email')
+		.control( in-value="'#{login ? me.connect.principal.mail : '' }'", 
+			ng-model="rep.data.email")
+			input#mail( ng-model="rep.data.email", 
+				type="email" )
+
+	button.button.green( type="submit" )= gettext('enviar')
+.form(  ng-show="rep.send == 1" )
+	h3= gettext('enviado')
+
+.form(  ng-show="rep.send == 2" )
+	h3= gettext('error')

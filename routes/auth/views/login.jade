@@ -1,0 +1,11 @@
+extends lay
+include mixins
+
+block smalls
+	.iconz.quarter-bottom-padding.quarter-top-space
+		p.align-center= gettext("ingresar via")
+		+Auth().icon-2x
+	.half-bottom-padding.half-top-space.iconz
+		+Login
+	.half-top-space( ng-controller="Creator")
+		+Creator

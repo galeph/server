@@ -1,0 +1,33 @@
+include ../../api/views/mixins
+include mixins
+
+- var nick = user ? user.profile.nick : me ? "{{card.me || !card.creator.profile ? '" + me.profile.nick + "' : card.creator.profile.nick}}" : '{{card.creator.profile.nick}}';
+
+article.super-card.bottom-space( id="{{card._id}}", ng-controller="item" )
+	block card
+	nav.ng-navigation.all-100
+		unless name == 'shop'
+			ul.pills.white.menus
+				input.ng-hide.hide-all(type="checkbox", ng-model="card.menu", id="menu-{{card._id}}")
+				li( ng-class="{ active : card.menu }" ): label.a.icon.icon-angle-down(for="menu-{{card._id}}" )
+		ul.menu.vertical.white( ng-show="card.menu" )
+			block menu
+	- var paddings = !name ? '' : 'half-top-padding';
+	section.card( ng-class="{ 'half-bottom-padding' : !( card.descri.length || card.album.length ) }", class= paddings )
+		a.item( ng-class="{ open : card.menu }", ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.id_}}", analytics-on=true, scroll-to="body", target="_self")
+			img.all-100(min-width=100, ng-src="#{GLOBAL.CONFIG.servers.embe.url}250x.image/#{sessionID}{{card.URI}}", alt="{{card.descri}}", ng-if="card.isImage" )
+			img.all-100( ng-src="#{GLOBAL.CONFIG.servers.embe.url}75x75.video/#{sessionID}{{card.URI}}", alt="{{card.descri}}", ng-if="card.isVideo" )
+			img.all-100( ng-src="#{GLOBAL.CONFIG.servers.embe.url}75x75.audio/#{sessionID}{{card.URI}}", alt="{{card.descri}}", ng-if="card.isAudio" )
+		nav.ng-navigation.quarter-horizontal-space( feedback="{{card._id}}", cart="card.sell.is", bay="cart.bay", nick="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.id_}}" )
+	section.all-100
+		nav.ng-navigation( ng-if="!card.edit" )
+			//-p.time.push-right( am-time-ago="card.dateLa" )
+			ul.breadcrumbs.tags.no-radius( ng-if="card.album.length > 0" )
+				li( ng-repeat="album in card.album" )
+					a( ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{album.slug}}", analytics-on=true, target="_self") {{album.name}}
+			p.text( ng-bind-html="card.descri | links:250" ng-if="card.descri.length > 0" )
+
+		if login
+			//-+comentarios( 85, 'small' )
+
+block last

@@ -1,0 +1,12 @@
+a.button-group( href=!me ? GLOBAL.CONFIG.servers.auth.url + "create" : false, ng-show="me" )
+	if me
+		button.button.no-margin( ng-click="following()", ng-class="{ green : isFollow, red : isFollow && hover }", ng-if="!isBlock", ng-mouseenter="hover = true", ng-mouseleave="hover = false")
+			span( ng-show="!isFollow")= gettext('seguir')
+			span( ng-show="isFollow" )
+				strong( ng-show="!hover" )= gettext('siguiendo')
+				strong( ng-show="hover" )= gettext('dejar de seguir')
+		button.button.red.no-margin( ng-click="block()", ng-if="!isFollow" )
+			i.icon.icon-times-circle( ng-show="!isBlock")
+			span( ng-show="isBlock")= gettext('desbloquar')
+	else
+		.button.no-margin= gettext('seguirlo')

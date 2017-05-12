@@ -1,0 +1,68 @@
+extends ../../api/views/layout
+include ../../api/views/mixins
+include ../../glph/views/mixins
+
+block data
+	link( rel="alternate", type="application/rss+xml", href="#{GLOBAL.CONFIG.servers.feed.url}#{user.profile.nick}")
+	link( rel="alternate", type="application/atom+xml", href="#{GLOBAL.CONFIG.servers.feed.url}#{user.profile.nick}?feed=atom")
+
+block constants
+	+constant('URL',GLOBAL.CONFIG.servers.glph.url.replace("glph", user.profile.nick))
+
+block runScript
+	+GoogleAnalytics(GLOBAL.CONFIG.servers.glph.analytic)
+
+block Script
+	script( type='text/javascript', src=cacheLink('glph.js') )
+	
+block out
+	section.profile.top-space.all-100( sticky=true, body-class="ng-stuck", sticky-class="ng-sticky-stuck", offset=-265 )
+		+portada( album || user, '1500x500', _.isObject(album) ).top.half-horizontal-space
+			nav.ng-navigation.ie7.ng-column-group.green.half-horizontal-space
+				ul.menu.horizontal.push-left.green
+					li: a.quarter.avatar( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) )
+						+avatar( user, 75).double.out
+						h4.name.fw-300.quarter-left-padding.double-left-space= user.profile.name
+							.small.fw-700= '@' + user.profile.nick
+				ul.menu.horizontal.push-right.green
+					if item > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) )
+							h4.no-margin.align-center= item
+								.small= gettext('items')
+					if album > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) )
+							h4.no-margin.align-center= album
+								.small= gettext("albums", album )
+					if follower > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) + 'followers' )
+							h4.no-margin.align-center= follower
+								.small= gettext("seguidores")
+					if follow > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) + 'following' )
+							h4.no-margin.align-center= follow
+								.small= gettext("siguiendo", '')
+					//- if likes > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) + 'likes' )
+							h4.no-margin.align-center= likes
+								.small Me gustas
+					if favs > 0
+						li: a.quarter( href=GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) + 'likes' )
+							h4.no-margin.align-center= favs
+								.small= gettext("lista deseos", favs )
+					if me
+						if me._id.toString() === user._id.toString()
+							li
+								input#edit.ng-hide(type="checkbox", ng-model="edit", ng-init="edit=false")
+								.button-group.a.quarter( ng-show="!edit" )
+									label.button.no-margin.rounded( for="edit", icon-edit, data-tool=gettext('editar') )
+								.button-group.a( ng-show="edit", ng-click="edit=!edit;" )
+									label.button.no-margin( for="save" )= gettext('guardar')
+									label.button.red.no-margin( for="cancel" )
+										i.icon.icon-times
+						else
+							li( follow="'#{user._id}'" )
+					else
+						li( follow="'#{user._id}'" )
+
+block content
+	section.ng-column-group.ng-gutters( ng-view=true )

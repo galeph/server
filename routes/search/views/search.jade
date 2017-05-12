@@ -1,0 +1,36 @@
+extends ../../api/views/7525
+include ../../api/views/mixins
+
+block before
+	meta( property="og:title", content=gettext('buscar en %s', "Galeph") )
+	meta( property="og:description", itemprop="description", name="description", content=gettext("meta description search") )
+	meta( name="twitter:description", content=gettext("meta description search") )
+	meta( property="og:url", content=GLOBAL.CONFIG.servers.www.search )
+
+block small
+	nav.ng-navigation
+		ul.menu.vertical.white
+			li( class= !query.name ? 'active' : '' )
+				a(ng-href=GLOBAL.CONFIG.servers.search.url + "?q={{$parent.bar}}" )= gettext('items')
+			//-li( class= query.name === 'image' ? 'active' : '' )
+				a(ng-href=GLOBAL.CONFIG.servers.search.url + "image?q={{$parent.bar}}" )= gettext('imagenes')
+			//-li( class= query.name === 'video' ? 'active' : '' )
+				a(ng-href=GLOBAL.CONFIG.servers.search.url + "video?q={{$parent.bar}}" )= gettext('videos')
+			//-li( class= query.name === 'audio' ? 'active' : '' )
+				a(ng-href=GLOBAL.CONFIG.servers.search.url + "audio?q={{$parent.bar}}" )= gettext('audio')
+			li( class= query.name === 'user' ? 'active' : '' )
+				a(ng-href=GLOBAL.CONFIG.servers.search.url + "user?q={{$parent.bar}}" )= gettext('user')
+
+block after
+	//-+template( 'angular', 'follow' )
+		a( ng-haga click ="follow()", ng-show="isFollow" )= gettext('seguir')
+		a( ng-haga click ="block()", ng-show="!isFollow" )= gettext('bloquear')
+
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.search.url}#{sessionID}.#{query.name === 'user' ? 'contact' : 'card'}" )
+	+increment('push', ( query.name === 'user' ? 'user' : 'item' ) + ( query.name && query.name != 'user' ? ':' + query.name : '' ) )
+
+block small

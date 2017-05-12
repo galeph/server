@@ -1,0 +1,13 @@
+include ../../../api/views/mixins
+extends ../../../api/views/7525
+
+block small
+	h1( view-title )= gettext('notificaciones')
+
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.www.url + sessionID}.news-card" )
+	+increment("push", 'news')
+	//-h4.align-center.uppercase.fw-100( ng-show="!items.length" )=  gettext('no existen interaciones')

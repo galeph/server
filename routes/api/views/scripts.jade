@@ -1,0 +1,12 @@
++ie-simple( 'lte', 9, true )
+	script( async=true, type="text/javascript", src=cacheLink('cdn-ie.js') )
+
+script( async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" )
+script( type='text/javascript', src=cacheLink('cdn-lib.js') )
+script( type='text/javascript', src=cacheLink('cdn.js') )
+script( type='text/javascript') (function(g,a,l,e,p,h){g['GoogleAnalyticsObject']=h;g[e]=g[e]||function(){(g[e].q=g[e].q||[]).push(arguments)},g[e].l=1*new Date();var w=a.createElement(l),m=a.getElementsByTagName(l)[0];w.async=1;w.src='//www.google-analytics.com/analytics.js';m.parentNode.insertBefore(w,m);g[p[0]][p[1]]('VERSION','#{version}')[p[1]]('LANG','#{session.lang ? session.lang.code : GLOBAL.CONFIG.response.lang}')[p[1]]('NAME','#{name}')[p[1]]('SESSION','#{sessionID}')[p[1]]('API','#{GLOBAL.CONFIG.servers.api.url}')[p[1]]('CONF',!{JSON.stringify(configAPI)})[p[1]]('USER','#{login ? me._id : false}')[p[1]]('KEY','#{GLOBAL.CONFIG.key.recaptcha.key}')[p[1]]('DOOR',!{JSON.stringify(GLOBAL.CONFIG.key.doorbell)})
+	block constants
+	| })(window,document,'script','ga',['#{app.file}','constant']);
+	block runScript
+
+block Script

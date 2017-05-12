@@ -1,0 +1,15 @@
+mixin avatar ( user, ancho, nick, id )
+	- var url =  _.isObject(user) ? user.profile.avatar : user;
+	img.avatar(
+		ng-src= GLOBAL.CONFIG.servers.embe.url + ancho + 'x' + ancho + url,
+		alt= nick || user.profile.nick,
+		id= id || user._id.toString(),
+		width=ancho,
+		class= attributes.class )
+	//- height=ancho,
+
+mixin portada (image, tamano, isAlbum)
+	- var url = GLOBAL.CONFIG.servers.embe.url + tamano + ( isAlbum ? image.topUIR : image.profile.top );
+	section.ng-grid
+		.white( class= attributes.class, style='background-image : url("#{url}")' )
+			block

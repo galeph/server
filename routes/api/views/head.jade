@@ -1,0 +1,48 @@
+//- Creadores baiscos
++meta()
+base( href= GLOBAL.CONFIG.servers.www.url )
+meta( content='origin', name='referrer')
+meta( name='HandheldFriendly', content='True')
+meta( name='MobileOptimized', content='320')
+meta( name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+
+block data
+
+link(name=gettext('Galeph'), type='application/opensearchdescripcioniption+xml', rel='search', href=GLOBAL.CONFIG.servers.search.url + 'opensearch.xml' )
+
+link( rel='shortcut icon', href=cacheLink('favicon-24x.ico'), type="image/x-icon", size="16x16 24x24 32x32 64x64" )
+
++ie-simple( 'lt', 9, true )
+	link( rel='stylesheet', type='text/css', href=cacheLink('glph-ie.css'), charset='utf-8' )
+
+link( rel='stylesheet', type='text/css', href=cacheLink('glph.css'), charset='utf-8' )
+link( rel='stylesheet', type='text/css', href=cacheLink('all.css'), charset='utf-8' )
+
+title( ng-bind-template="{{viewTitle ? viewTitle + ' - ' : '' }}#{_.humanize(gettext('Galeph'))}" )= _.humanize(gettext('Galeph'))
+
+meta( name="robots", content="index, follow")
+meta( property='og:locale', content= session.lang ? session.lang.code : GLOBAL.CONFIG.response.lang )
+meta( property='og:type', content='website')
+meta( property='og:site_name', content=gettext('Galeph') )
+meta( name='twitter:site', content="@#{gettext('twitter galeph')}" )
+
+each verification, index in GLOBAL.CONFIG.key.verification
+	meta( name= index, content=verification )
+
+if agent.is.mobile_safari || agent.is.safari
+	link( rel='apple-touch-icon', href=cacheLink('favicon-16x.png') )
+	meta( name='twitter:app:name:iphone' content= _.humanize(gettext('Galeph')) )
+	meta( name='twitter:app:id:iphone' content='306934135' )
+	meta( name='twitter:app:name:ipad' content=_.humanize(gettext('Galeph')) )
+	meta( name='twitter:app:id:ipad' content='306934135' )
+
+if agent.is.android || agent.is.chrome || agent.is.firefox
+	meta( name='twitter:app:name:googleplay' content=_.humanize(gettext('Galeph')) )
+	meta( name='twitter:app:id:googleplay' content='com.galeph' )
+
+link( rel='canonical', href= originalUrl)
+link( rel='alternate', hreflang='x-default', href= originalUrl)
+
+if gettextList
+	each idioma in gettextList
+		link(href= GLOBAL.CONFIG.servers.www.url + '?lang=' + idioma.code, hreflang= idioma.code, rel="alternate" )

@@ -1,0 +1,12 @@
+- var nick = user ? user.profile.nick : me ? "{{card.me || !card.creator.profile ? '" + me.profile.nick + "' : card.creator.profile.nick}}" : '{{card.creator.profile.nick}}';
+
+ul.pills.more.green
+	li.top.rounded.bounce( data-tool=gettext("me gusta") ): a.icon( class="icon-heart{{isLike ? '' : '-o' }}", ng-click="like()") {{count | max:0}}
+	if cart
+		li: a.icon.icon-shopping-cart {{ isCart.price | currency}}
+		li.top.rounded.bounce( data-tool=gettext("quitar") ): a.icon.icon-trash-o( ng-click="$parent.removeCart()" )
+	else 
+		li.top.rounded.bounce( data-tool=gettext("favorito") ): a.icon( class="icon-bookmark{{isFavorite ? '' : '-o' }}", ng-click="favorite()")
+		li.top.rounded.bounce( data-tool=gettext("comentar") ): a.icon.icon-comments( ng-href="{{nick}}#comment" )
+		li.top.rounded.bounce( ng-if="!isDownload && isCart", data-tool=gettext("agrega al carro")): a.icon.icon-shopping-cart( ng-click="addCart()" ) {{ isCart.price | currency}}
+		li.top.rounded.bounce( ng-if="isDownload", data-tool=gettext('descargar archivo')): a.icon.icon-check( ng-href="{{nick}}?to=download" )

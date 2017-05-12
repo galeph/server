@@ -1,0 +1,13 @@
+include ../../glph/views/mixins
+
+article.super-card.bottom-space.cover( id="{{card._id}}", background="card.profile.top" )
+	.fols.double-bottom-padding.top-padding
+		if me
+			.push-right.half-right-padding( follow="card._id" )
+	//-p {{card | json}}
+	nav.ng-navigation.ie7.ng-column-group.green.under-radius
+		ul.menu.horizontal.push-left.green.under-radius
+			li: a.quarter.half-horizontal.avatar( ng-href=GLOBAL.CONFIG.servers.glph.url.replace('glph', '{{card.profile.nick}}') )
+				+avatar( '/{{card._id}}.user.avatar', 40, '{{card.profile.nick}}', '{{card.profile._id}}' ).double.out
+				h5.name.fw-300.quarter-left-padding.double-left-space {{card.profile.name}}
+					.small.fw-700 @{{card.profile.nick}}

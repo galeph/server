@@ -1,0 +1,15 @@
+extends ../ng-card
+
+block card
+
+block menu
+	li: a( ng-href!="{{card.checkIn.success_url}}" )= gettext('ver factura')
+	li: a( ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{card.item.id_}}?to=download", analytics-on=true, scroll-to="body" )= gettext('descargar')
+
+block description
+	nav.ng-navigation( ng-if="!card.edit" )
+		//-p.time.push-right( am-time-ago="card.dateLa" )
+		ul.breadcrumbs.tags.no-radius( ng-if="card.item.album.length > 0" )
+			li( ng-repeat="album in card.item.album" )
+				a( ng-href!="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', nick)}{{album.slug}}", analytics-on=true) {{album.name}}
+		p.text( ng-bind-html="card.item.descri | links:250" ng-if="card.item.descri.length > 0" )

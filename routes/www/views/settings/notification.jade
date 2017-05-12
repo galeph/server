@@ -1,0 +1,23 @@
+form#pass.form.xlarge-60.large-80.medium-100.small-100.tiny-100( name="noti", ng-submit="save()" )
+	.overflow.half-bottom-space
+		h4.push-left= gettext('notificaciones')
+		button.button.green.push-right(type="submit")= gettext('guardar')
+	fieldset
+		legend=gettext('notificaciones al correo')
+		.control-group( ng-model="acc.basic", in-value="#{me.connect.notic.trans}" )
+			label.icon.quarter-left-space( for="trans", class="icon-{{acc.basic ? 'check-' : '' }}square-o")= gettext('cada vez que exista una trans')
+			.control.push-right
+				input.checkbox(
+					id="trans",
+					type="checkbox",
+					name="trans",
+					ng-model="acc.basic")
+
+		.control-group
+			p.label=gettext('informe')
+			ul.control.unstyled( ng-model="acc.infos", in-value="#{me.connect.notic.send}" )
+				each send, index in [ 'diario', 'semana', 'none' ]
+					li
+						input.hide-all(type="radio", ng-model="acc.infos", name="type#{index}", value=index, id="type#{index}")
+						label.icon( class="icon-{{ acc.infos == #{index} ? 'dot-' : '' }}circle-o", for="type#{index}" )
+							span.quarter-left-space=gettext(send)

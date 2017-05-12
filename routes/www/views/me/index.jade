@@ -1,0 +1,32 @@
+include ../../../api/views/mixins
+extends ../../../api/views/7525
+
+block before
+	+template( 'angular', 'follow' )
+		a.button-group
+			button.button( ng-click="follow()", ng-class="{ green : isFollow, red : isFollow && hover }", ng-if="!isBlock", ng-mouseenter="hover = true", ng-mouseleave="hover = false")
+				span( ng-show="!isFollow")= gettext('seguir')
+				span( ng-show="isFollow" ) 
+					strong( ng-show="!hover" )= gettext('siguiendo')
+					strong( ng-show="hover" )= gettext('dejar de seguir')
+			button.button.red( ng-click="block()", ng-if="!isFollow" )
+				i.icon.icon-times-circle( ng-show="!isBlock")
+				span( ng-show="isBlock")= gettext('desbloquar')
+
+block small
+	section.all-100.bottom-space
+		view-title.ng-hide= gettext('bienvenido')
+		p.small= gettext('bienvenida')
+		a.button.all-100.white(href="#{GLOBAL.CONFIG.servers.import.url}contact", target="_self")
+			span.push-left= gettext('invitar a mis amigos')
+			i.icon.icon-arrow-right.push-right
+	section.all-100( ng-controller="toFollow" )
+		section( ng-repeat="card in follows" )
+			include ../../../search/views/contact
+
+block contents
+	.ng-column-group.ng-gutters.top-space(
+		deckgrid=true,
+		source="items",
+		cardTemplate="#{GLOBAL.CONFIG.servers.www.url + sessionID}.card" )
+	+increment("push")

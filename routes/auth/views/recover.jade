@@ -1,0 +1,17 @@
+extends lay
+
+block smalls
+	article( ng-controller="Creator")
+		h3= gettext('titulo recuperar')
+		form.form.column(action= GLOBAL.CONFIG.servers.auth.url + "recover", method="POST", name="create" )
+			input.hide-all( type="text", name="sec", value= sessionID )
+			ol.unstyled( re-input="user" )
+				li.control-group.validation( ng-show="step == 0", ng-class="{ warning : create.pass.$dirty && create.pass.$invalid }" )
+					.control.append-button
+						span: input#user.big(
+							type="text",
+							name="user",
+							ng-model="user.user",
+							placeholder= gettext("usuario o email") )
+						button.button.white.big( type="submit", ng-click="nexts()", ng-disabled="!create.$valid"  )
+							i.icon.icon-arrow-right

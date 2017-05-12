@@ -1,0 +1,160 @@
+include ../../../api/views/mixins
+include ../mixins
+
+view-title.ng-hide= user.profile.nick
+section.push-center.xlarge-80.large-90.medium-100.small-100.tiny-100
+	article.ng-column-group.ng-gutters
+		section.grid.push-left.all-65.small-100.tiny-100
+			article.item( ng-event="comment" )
+				if item.isImage
+					img.all-100( src="#{GLOBAL.CONFIG.servers.embe.url}750x.image/#{sessionID}#{item.URI}", alt="{{card.descrip}}" )
+				if item.isVideo
+					p es isVideo
+				if item.isAudio
+					p es audio
+			article.show-all.hide-xlarge.hide-large.hide-medium.hide-small.hide-tiny.change
+				p hola
+			section.top-space 
+				if login && !cart
+					include form
+				ul.commets.unstyled
+					include comment
+				+increment("push")
+
+		.push-right.show-all.hide-small.hide-tiny.all-35.change
+			.form( ng-controller="item" )
+				nav.nav.ng-navigation.ie7.auto( in-value="'#{item._id}'", ng-model="card._id" )
+					ul.menu.horizontal.push-left.white.ng-column-group.all-100.overflow
+						li.all-33: h4.no-margin.align-center= view || 1
+							.small= gettext('vistos')
+						li.all-33( ng-click= login ? "like()" : false, in-value="#{likes || 0}", ng-model="card.likes" )
+							h4.no-margin.align-center.pointer( in-value="#{_.isObject(iLike) && _.isDate(iLike.like)}", ng-model="card.isLikes" ) {{card.likes | max}}
+								.small= gettext('me gusta')
+						if seller
+							li.all-33: h4.no-margin.align-center(  in-value="#{seller}", ng-model="card.bys" ) {{card.bys | max}}
+								.small= gettext('bays')
+				section.ng-tabs.top( ng-controller="item" )
+					ul.tabs-nav.menu( ng-init="name=0;" )
+						li.all-33.align-center( class="{{ name === 0 ? 'active' : '' }}" ): a.tabs-tab( ng-click="name=0;" )= gettext('descripcion')
+						li.all-33.align-center( class="{{ name === 1 ? 'active' : '' }}" ): a.tabs-tab( ng-click="name=1;" )= gettext('meta')
+						li.all-33.align-center( class="{{ name === 2 ? 'active' : '' }}" ): label.tabs-tab.a( for="share", ng-click="name=2;" )= gettext('compartir')
+
+					article.tabs-content.padding-bottom( in-value="'#{item.descri || '' }'", ng-model="card.descri", ng-show="name===0" )
+						section(ng-show="!edit", )
+							p( ng-bind-html="card.descri | links:250" )
+							dt= gettext('publicado')
+								dd.fw-100= moment(item.dateCr).format("dddd, MMMM D YYYY, h:mm a")
+						if login && user._id.toString() === me._id.toString()
+							form#update.form.white(ng-show="edit",ng-submit="upInfo()" )
+								.control-group: .control
+									input#album(
+										type="text",
+										mentio="true",
+										ng-model="card.album",
+										placeholder=gettext("tus albumnes") )
+								.control-group: .control
+									textarea#descr(
+										ng-model="card.descri",
+										ng-Maxlength=250,
+										placeholder=gettext("tu descripcion") )
+								if me.connect.principal.confirm
+									.control-group: .control.push-right( in-value="#{item.sell.is}", ng-model="card.sell" )
+										input.checkbox#sell(
+											type="checkbox",
+											name="sell",
+											ng-model="card.sell")
+										label.icon.ali( for="sell", class="icon-{{card.sell ? 'check-' : '' }}square-o")= gettext("gosell")
+									.control-group( ng-show="card.sell")
+										.control.append-button.mime( in-value="#{item.sell.price}", ng-model="card.price" )
+											span: input.no-radius#price(
+												name="price",
+												type="number",
+												placeholder=gettext("valor"),
+												ng-model="card.price",
+												ng-disabled="!card.sell" )
+											label.button( for="price", ng-class="{ white : card.sell }" )= gettext("currency usd")
+								else
+									p= gettext('active su cuenta')
+								input.ng-hide#save(type="submit", name="save")
+								input.ng-hide#cancel(type="button", name="cancel", ng-click="resetInfo()")
+					dl.tabs-content( ng-show="name===1" ) 
+						- var file = item.file.id.toObject(); 
+						each data, index in file.metadata
+							if !/mimeType|imageSize|exiftoolVersionNumber|creator|profileCopyright/i.test(index) && data
+								dt= gettext(index)
+								dd= data
+					article.tabs-content.control-group( ng-show="name===2" )
+						.control
+							input#share( type="text", value=GLOBAL.CONFIG.servers.embe.url.replace('embe', user.profile.nick) + item.id_, readonly=true )
+						- var textShare = _.trim(gettext("%s @%s", item.descri || ' ',  user.profile.nick) );
+						.button-group.top-space.push-center
+							a.all-20.button( share="fb" )
+							a.all-20.button( share="twitter", text=textShare, via=gettext("twitter galeph") )
+							a.all-20.button( share="google" )
+							a.all-20.button( share="tumblr" )
+							a.all-20.button( share="reddit" )
+						.button-group.half-top-space.push-center
+							a.all-20.button( share="linkedin" )
+							a.all-20.button( share="pinterest", text=textShare )
+							a.all-20.button( share="xing" )
+							a.all-20.button( share="vk", text=textShare )
+							a.all-20.button( share="email", text=textShare )
+
+				if download
+					h5= gettext('lo has comprado')
+					a.button.all-100.no-margin( href= GLOBAL.CONFIG.servers.embe.url + item._id )= gettext('descargar archivo')
+				else 
+					if item.sell.is
+						.button-group.all-100.top-space( ng-show="!edit && card.price" )
+							button.button.all-30.black.desactive( disabled=true, in-value="#{item.sell.price}", ng-model="card.price" ) {{card.price | currency:USD}} USD
+							button.button.all-70.green( ng-click="addCart()")
+								i.icon-shopping-cart.icon.half-horizontal-space
+								= gettext('comprar')
+				nav.nav.ng-navigation.ie7.auto
+					ul.breadcrumbs.horizontal.grey
+						if login && user._id.toString() != me._id.toString()
+							li: a(ng-click="report()")=gettext('denunciar')
+						if login && user._id.toString() === me._id.toString()
+							li: a( href= GLOBAL.CONFIG.servers.embe.url + item._id )= gettext('descargar archivo')
+
+					if agent.is.mobile_safari || agent.is.safari
+						meta(view-head=true, name="twitter:app:url:iphone" content="com.galeph://item/#{item.id_}" )
+						meta(view-head=true, name="twitter:app:url:ipad" content="com.galeph://item/#{item.id_}" )
+					if agent.is.android || agent.is.chrome
+						meta( name="twitter:app:url:googleplay" content="http://galeph.com/item/#{item.id_}" )
+					if item.sell.is
+						//- Twitter
+						meta( view-head=true, name="twitter:card", property="og:type", content="product")
+						meta( view-head=true, name="twitter:label1", content="Price")
+						meta( view-head=true, name="twitter:data1", content="{{card.price | currency}}USD")
+						meta( view-head=true, name="twitter:label2", content="Type")
+						meta( view-head=true, name="twitter:data2", content="Digital")
+						meta( view-head=true, name="twitter:label3", content="Content")
+						if item.isImage
+							meta( view-head=true, name="twitter:data3", content="Image")
+						if item.isVideo
+							meta( view-head=true, name="twitter:data3", content="video")
+						if item.isAudio
+							meta( view-head=true, name="twitter:data3", content="audio")
+					else
+						if item.isImage
+							meta( view-head=true, name="twitter:card", content="summary")
+						if item.isVideo || item.isAudio
+							meta( view-head=true, name="twitter:card", content="player")
+							meta( view-head=true, name="twitter:player:width", content="750")
+						if item.isVideo
+							meta( view-head=true, name="twitter:player:height", content="750")
+						if item.isAudio
+							meta( view-head=true, name="twitter:player:height", content="150")
+
+					//- Schema.org
+					meta( view-head=true, itemprop="description", content=gettext("meta user", user.profile.nick), name="description" )
+
+					//- Open Graph data FB and Twitter
+					meta( view-head=true, property="og:title", name="twitter:title", itemprop="name", content="{{card.descri}}")
+					meta( view-head=true, property="og:url", name="twitter:url", content="#{GLOBAL.CONFIG.servers.glph.url.replace('glph', user.profile.nick) + item.id_}")
+					meta( view-head=true, property="og:image", name="twitter:image", itemprop="image", content="#{GLOBAL.CONFIG.servers.embe.url}150x.image/#{sessionID}#{item.URI}")
+					meta( view-head=true, property="og:description", name="twitter:description", content=gettext("meta user", user.profile.nick) )
+
+			section.top-space
+				ads-ggl#3283839139
