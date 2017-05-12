@@ -2,12 +2,11 @@
 	"name": "galeph",
 	"description": "Aplicacion de Galeph",
 	"version": "2.9.33",
-	"author": "kussu",
 	"analyze": true,
 	"main": "bin/exports.js",
 	"contributors": [
 		{
-			"name": "Alejandro Moreno",
+			"name": "Alejandro Next",
 			"email": "alejonext@gmail.com"
 		}
 	],
@@ -90,7 +89,7 @@
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git@gitlab.com:Galeph/app.git"
+		"url": "git@github.com:galeph/server.git"
 	},
 	"scripts": {
 		"debug": "nodejs --debug bin/index.js run -p 3000",

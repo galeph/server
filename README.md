@@ -46,7 +46,7 @@ Existen dos metodos, uno es de trabajo y el otro es de produccion, escoja cuidad
 
 * Metodo de trabajo
 
-		git clone git@github.com:galeph/app.git
+		git clone git@github.com:galeph/server.git
 
 > Nota: Si se esta trabajado en la nube no haga esto de aqui en adelante. Termino la instalacion.
 El metodo es simple existe un script que sube o guarda informacion para la utilizacion rapida de la plataforma.
